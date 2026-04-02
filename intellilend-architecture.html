@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IntelliLend — System Architecture</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f1117;
+    color: #e2e8f0;
+    min-height: 100vh;
+    padding: 32px 24px;
+  }
+  .page-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .page-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .page-header p {
+    color: #64748b;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #475569;
+    margin-bottom: 16px;
+    padding-left: 4px;
+  }
+
+  /* ========================
+     ARCHITECTURE DIAGRAM
+  ======================== */
+  .arch-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 1100px;
+    margin: 0 auto 56px;
+    position: relative;
+  }
+
+  .arch-layer {
+    border-radius: 16px;
+    padding: 20px 24px;
+    position: relative;
+    border: 1px solid;
+  }
+
+  .arch-layer.client {
+    background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(5,150,105,0.04));
+    border-color: rgba(16,185,129,0.25);
+  }
+  .arch-layer.api {
+    background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(79,70,229,0.04));
+    border-color: rgba(99,102,241,0.25);
+    margin: 0 24px;
+  }
+  .arch-layer.data {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin-top: 0;
+  }
+  .arch-layer.db-box {
+    background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(217,119,6,0.04));
+    border-color: rgba(245,158,11,0.25);
+  }
+  .arch-layer.ai-box {
+    background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(124,58,237,0.04));
+    border-color: rgba(139,92,246,0.25);
+  }
+
+  .layer-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .client .layer-label { color: #10b981; }
+  .api .layer-label { color: #818cf8; }
+  .db-box .layer-label { color: #f59e0b; }
+  .ai-box .layer-label { color: #a78bfa; }
+
+  .layer-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    display: inline-block;
+  }
+  .client .layer-dot { background: #10b981; box-shadow: 0 0 6px #10b981; }
+  .api .layer-dot { background: #818cf8; box-shadow: 0 0 6px #818cf8; }
+  .db-box .layer-dot { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
+  .ai-box .layer-dot { background: #a78bfa; box-shadow: 0 0 6px #a78bfa; }
+
+  .modules-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .module-chip {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid;
+    white-space: nowrap;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .module-chip:hover { transform: translateY(-1px); }
+
+  /* Module chip colors by lifecycle */
+  .chip-green { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: #6ee7b7; }
+  .chip-indigo { background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.3); color: #a5b4fc; }
+  .chip-teal { background: rgba(20,184,166,0.1); border-color: rgba(20,184,166,0.3); color: #5eead4; }
+  .chip-purple { background: rgba(168,85,247,0.1); border-color: rgba(168,85,247,0.3); color: #d8b4fe; }
+  .chip-amber { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: #fcd34d; }
+  .chip-slate { background: rgba(100,116,139,0.1); border-color: rgba(100,116,139,0.3); color: #94a3b8; }
+  .chip-violet { background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.3); color: #c4b5fd; }
+
+  /* Arrow connector */
+  .connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    position: relative;
+  }
+  .connector-line {
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(99,102,241,0.4), rgba(99,102,241,0.1));
+    position: absolute;
+    left: 50%;
+  }
+  .connector-label {
+    background: #1e2130;
+    border: 1px solid #2d3450;
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 10px;
+    color: #64748b;
+    z-index: 1;
+    letter-spacing: 0.05em;
+  }
+
+  /* ========================
+     LIFECYCLE STAGES
+  ======================== */
+  .lifecycle-section {
+    max-width: 1100px;
+    margin: 0 auto 56px;
+  }
+
+  .lifecycle-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+
+  .lifecycle-card {
+    border-radius: 14px;
+    padding: 18px 16px;
+    border: 1px solid;
+    position: relative;
+    overflow: hidden;
+  }
+  .lifecycle-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .lc-origination { background: rgba(16,185,129,0.06); border-color: rgba(16,185,129,0.2); }
+  .lc-origination::before { background: linear-gradient(90deg, #10b981, #059669); }
+
+  .lc-underwriting { background: rgba(99,102,241,0.06); border-color: rgba(99,102,241,0.2); }
+  .lc-underwriting::before { background: linear-gradient(90deg, #6366f1, #4f46e5); }
+
+  .lc-servicing { background: rgba(20,184,166,0.06); border-color: rgba(20,184,166,0.2); }
+  .lc-servicing::before { background: linear-gradient(90deg, #14b8a6, #0d9488); }
+
+  .lc-collections { background: rgba(168,85,247,0.06); border-color: rgba(168,85,247,0.2); }
+  .lc-collections::before { background: linear-gradient(90deg, #a855f7, #9333ea); }
+
+  .lc-analytics { background: rgba(245,158,11,0.06); border-color: rgba(245,158,11,0.2); }
+  .lc-analytics::before { background: linear-gradient(90deg, #f59e0b, #d97706); }
+
+  .lc-icon { font-size: 22px; margin-bottom: 10px; display: block; }
+  .lc-name {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: 0.02em;
+  }
+  .lc-origination .lc-name { color: #6ee7b7; }
+  .lc-underwriting .lc-name { color: #a5b4fc; }
+  .lc-servicing .lc-name { color: #5eead4; }
+  .lc-collections .lc-name { color: #d8b4fe; }
+  .lc-analytics .lc-name { color: #fcd34d; }
+
+  .lc-route {
+    font-size: 10px;
+    color: #475569;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    margin-bottom: 12px;
+    background: rgba(0,0,0,0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .lc-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .lc-features li {
+    font-size: 11px;
+    color: #64748b;
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  .lc-features li::before {
+    content: '›';
+    flex-shrink: 0;
+    margin-top: -1px;
+  }
+
+  /* ========================
+     AI AGENTS
+  ======================== */
+  .agents-section {
+    max-width: 1100px;
+    margin: 0 auto 56px;
+  }
+
+  .agents-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .agent-card {
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid rgba(139,92,246,0.2);
+    background: rgba(139,92,246,0.04);
+    position: relative;
+  }
+
+  .agent-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .agent-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .agent-icon.doc { background: rgba(6,182,212,0.15); }
+  .agent-icon.credit { background: rgba(99,102,241,0.15); }
+  .agent-icon.collections { background: rgba(168,85,247,0.15); }
+
+  .agent-name { font-size: 13px; font-weight: 600; color: #e2e8f0; }
+  .agent-model { font-size: 10px; color: #475569; font-family: monospace; }
+
+  .io-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .io-box {
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+  .io-box.input { background: rgba(15,23,42,0.8); border: 1px solid #1e293b; }
+  .io-box.output { background: rgba(15,23,42,0.8); border: 1px solid #1e293b; }
+  .io-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; font-weight: 600; }
+  .io-box.input .io-label { color: #06b6d4; }
+  .io-box.output .io-label { color: #a78bfa; }
+  .io-items { list-style: none; color: #64748b; line-height: 1.7; }
+
+  .deterministic-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.2);
+    color: #6ee7b7;
+    border-radius: 6px;
+    padding: 3px 8px;
+    margin-top: 8px;
+  }
+
+  /* ========================
+     DATA FLOW
+  ======================== */
+  .flow-section {
+    max-width: 1100px;
+    margin: 0 auto 56px;
+  }
+
+  .flow-steps {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    position: relative;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .flow-step {
+    flex: 1;
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .flow-step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -14px;
+    top: 24px;
+    font-size: 18px;
+    color: #334155;
+    z-index: 2;
+  }
+
+  .flow-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: #1e293b;
+    border: 2px solid #334155;
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+  }
+
+  .flow-card {
+    background: #131929;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 12px 14px;
+    flex: 1;
+    margin-right: 24px;
+    transition: border-color 0.2s;
+  }
+  .flow-card:hover { border-color: #334155; }
+
+  .flow-title { font-size: 12px; font-weight: 600; color: #e2e8f0; margin-bottom: 4px; }
+  .flow-detail { font-size: 11px; color: #475569; line-height: 1.5; }
+  .flow-tag {
+    display: inline-block;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-top: 6px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .tag-api { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+  .tag-ai { background: rgba(139,92,246,0.15); color: #c4b5fd; }
+  .tag-db { background: rgba(245,158,11,0.15); color: #fcd34d; }
+  .tag-storage { background: rgba(20,184,166,0.15); color: #5eead4; }
+
+  /* ========================
+     TECH STACK
+  ======================== */
+  .stack-section {
+    max-width: 1100px;
+    margin: 0 auto 56px;
+  }
+
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .stack-card {
+    background: #131929;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .stack-category {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #475569;
+    margin-bottom: 12px;
+  }
+  .stack-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .stack-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .stack-name { font-size: 13px; color: #e2e8f0; font-weight: 500; }
+  .stack-role { font-size: 11px; color: #475569; }
+
+  /* ========================
+     FOOTER
+  ======================== */
+  .footer {
+    text-align: center;
+    color: #1e293b;
+    font-size: 11px;
+    max-width: 1100px;
+    margin: 32px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid #131929;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>IntelliLend — System Architecture</h1>
+  <p>AI-Powered Lending Intelligence Platform · Vercel + Supabase · Modular Monolith</p>
+</div>
+
+<!-- ======================== SYSTEM LAYERS ======================== -->
+<div class="arch-diagram">
+  <p class="section-title">System Layers</p>
+
+  <!-- Client Layer -->
+  <div class="arch-layer client">
+    <div class="layer-label"><span class="layer-dot"></span> Client Layer — Next.js 14 App Router</div>
+    <div class="modules-row">
+      <span class="module-chip chip-green">🟢 Origination /apply</span>
+      <span class="module-chip chip-indigo">🔵 Underwriting /underwriting/[id]</span>
+      <span class="module-chip chip-teal">🔷 Servicing /servicing/[id]</span>
+      <span class="module-chip chip-purple">🟣 Collections /collections</span>
+      <span class="module-chip chip-amber">🟠 Analytics /analytics</span>
+      <span class="module-chip chip-slate">Tailwind + ShadCN</span>
+      <span class="module-chip chip-slate">Recharts</span>
+      <span class="module-chip chip-violet">ThemeContext (5 adaptive themes)</span>
+    </div>
+  </div>
+
+  <div class="connector">
+    <div class="connector-line"></div>
+    <span class="connector-label">REST / HTTPS + JWT</span>
+  </div>
+
+  <!-- API Layer -->
+  <div class="arch-layer api">
+    <div class="layer-label"><span class="layer-dot"></span> API Layer — NestJS (Modular Monolith)</div>
+    <div class="modules-row">
+      <span class="module-chip chip-slate">AuthModule</span>
+      <span class="module-chip chip-green">ApplicationsModule</span>
+      <span class="module-chip chip-indigo">UnderwritingModule</span>
+      <span class="module-chip chip-teal">LoanModule</span>
+      <span class="module-chip chip-teal">RepaymentsModule</span>
+      <span class="module-chip chip-purple">CollectionsModule</span>
+      <span class="module-chip chip-amber">AnalyticsModule</span>
+      <span class="module-chip chip-violet">AgentsModule (Orchestrator)</span>
+      <span class="module-chip chip-slate">StorageModule</span>
+    </div>
+  </div>
+
+  <div class="connector">
+    <div class="connector-line"></div>
+    <span class="connector-label">Prisma ORM + LLM APIs</span>
+  </div>
+
+  <!-- Data Layer -->
+  <div class="arch-layer data">
+    <div class="arch-layer db-box">
+      <div class="layer-label"><span class="layer-dot"></span> Data Layer — Supabase</div>
+      <div class="modules-row">
+        <span class="module-chip chip-amber">PostgreSQL (PgBouncer)</span>
+        <span class="module-chip chip-amber">Storage Bucket (PDFs)</span>
+        <span class="module-chip chip-amber">Row Level Security</span>
+        <span class="module-chip chip-amber">Prisma Migrations</span>
+      </div>
+    </div>
+    <div class="arch-layer ai-box">
+      <div class="layer-label"><span class="layer-dot"></span> AI Decision Layer</div>
+      <div class="modules-row">
+        <span class="module-chip chip-violet">Document Intelligence Agent</span>
+        <span class="module-chip chip-violet">Credit Decision Agent</span>
+        <span class="module-chip chip-violet">Collections Strategy Agent</span>
+        <span class="module-chip chip-slate">OpenAI GPT-4o / Claude 3.5</span>
+        <span class="module-chip chip-indigo">Zod Output Validation</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== LIFECYCLE STAGES ======================== -->
+<div class="lifecycle-section">
+  <p class="section-title">Loan Lifecycle Stages — Context-Aware Adaptive Branding</p>
+  <div class="lifecycle-grid">
+    <div class="lifecycle-card lc-origination">
+      <span class="lc-icon">🌱</span>
+      <div class="lc-name">Origination</div>
+      <div class="lc-route">/apply</div>
+      <ul class="lc-features">
+        <li>Guest loan application</li>
+        <li>PDF bank statement upload</li>
+        <li>Guest → user conversion</li>
+        <li>Zod form validation</li>
+        <li>Green theme: welcoming</li>
+      </ul>
+    </div>
+    <div class="lifecycle-card lc-underwriting">
+      <span class="lc-icon">🧠</span>
+      <div class="lc-name">Underwriting</div>
+      <div class="lc-route">/underwriting/[id]</div>
+      <ul class="lc-features">
+        <li>3-agent AI pipeline</li>
+        <li>5C credit analysis</li>
+        <li>FOIR calculation</li>
+        <li>Risk score 0–100</li>
+        <li>Indigo theme: analytical</li>
+      </ul>
+    </div>
+    <div class="lifecycle-card lc-servicing">
+      <span class="lc-icon">📋</span>
+      <div class="lc-name">Servicing</div>
+      <div class="lc-route">/servicing/[id]</div>
+      <ul class="lc-features">
+        <li>EMI schedule generation</li>
+        <li>Payment tracking</li>
+        <li>DPD monitoring</li>
+        <li>Outstanding balance</li>
+        <li>Teal theme: operational</li>
+      </ul>
+    </div>
+    <div class="lifecycle-card lc-collections">
+      <span class="lc-icon">⚡</span>
+      <div class="lc-name">Collections</div>
+      <div class="lc-route">/collections</div>
+      <ul class="lc-features">
+        <li>DPD bucket classification</li>
+        <li>AI recovery actions</li>
+        <li>Priority recovery queue</li>
+        <li>Message tone control</li>
+        <li>Purple theme: urgent</li>
+      </ul>
+    </div>
+    <div class="lifecycle-card lc-analytics">
+      <span class="lc-icon">📊</span>
+      <div class="lc-name">Risk Analytics</div>
+      <div class="lc-route">/analytics</div>
+      <ul class="lc-features">
+        <li>Portfolio KPI dashboard</li>
+        <li>Risk distribution charts</li>
+        <li>Approval rate trends</li>
+        <li>FOIR histogram</li>
+        <li>Amber theme: executive</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== AI AGENTS ======================== -->
+<div class="agents-section">
+  <p class="section-title">AI Agent Architecture</p>
+  <div class="agents-grid">
+    <div class="agent-card">
+      <div class="agent-header">
+        <div class="agent-icon doc">📄</div>
+        <div>
+          <div class="agent-name">Document Intelligence Agent</div>
+          <div class="agent-model">GPT-4o / Claude 3.5 Sonnet</div>
+        </div>
+      </div>
+      <div class="io-row">
+        <div class="io-box input">
+          <div class="io-label">Input</div>
+          <ul class="io-items">
+            <li>Bank statement PDF</li>
+            <li>Supabase signed URL</li>
+          </ul>
+        </div>
+        <div class="io-box output">
+          <div class="io-label">Output (Zod)</div>
+          <ul class="io-items">
+            <li>monthly_income</li>
+            <li>avg_balance</li>
+            <li>emi_obligations</li>
+            <li>risk_flags[]</li>
+            <li>stability_score</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-header">
+        <div class="agent-icon credit">⚖️</div>
+        <div>
+          <div class="agent-name">Credit Decision Agent</div>
+          <div class="agent-model">GPT-4o / Claude 3.5 Sonnet</div>
+        </div>
+      </div>
+      <div class="io-row">
+        <div class="io-box input">
+          <div class="io-label">Input</div>
+          <ul class="io-items">
+            <li>User application</li>
+            <li>FinancialData</li>
+            <li>FOIR (computed)</li>
+          </ul>
+        </div>
+        <div class="io-box output">
+          <div class="io-label">Output (Zod)</div>
+          <ul class="io-items">
+            <li>decision (A/R/Review)</li>
+            <li>risk_score 0–100</li>
+            <li>5C factors</li>
+            <li>reasoning text</li>
+            <li>eligible_amount</li>
+          </ul>
+        </div>
+      </div>
+      <div class="deterministic-tag">⚙️ FOIR + risk bands computed deterministically first</div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-header">
+        <div class="agent-icon collections">🎯</div>
+        <div>
+          <div class="agent-name">Collections Strategy Agent</div>
+          <div class="agent-model">GPT-4o / Claude 3.5 Sonnet</div>
+        </div>
+      </div>
+      <div class="io-row">
+        <div class="io-box input">
+          <div class="io-label">Input</div>
+          <ul class="io-items">
+            <li>Days Past Due (DPD)</li>
+            <li>DPD bucket</li>
+            <li>Loan status</li>
+          </ul>
+        </div>
+        <div class="io-box output">
+          <div class="io-label">Output (Zod)</div>
+          <ul class="io-items">
+            <li>action type</li>
+            <li>message text</li>
+            <li>tone: soft/mod/strict</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== DATA FLOW ======================== -->
+<div class="flow-section">
+  <p class="section-title">End-to-End Data Flow — Application to Decision</p>
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-card">
+        <div class="flow-title">Form Submit</div>
+        <div class="flow-detail">User fills 3-field form + PDF upload. POST /applications</div>
+        <span class="flow-tag tag-api">API</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-card">
+        <div class="flow-title">PDF Storage</div>
+        <div class="flow-detail">Bank statement uploaded to Supabase Storage. Signed URL stored in DB.</div>
+        <span class="flow-tag tag-storage">Storage</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-card">
+        <div class="flow-title">Document Agent</div>
+        <div class="flow-detail">LLM extracts income, balance, EMIs, risk flags from PDF.</div>
+        <span class="flow-tag tag-ai">AI Agent</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div class="flow-card">
+        <div class="flow-title">FOIR Engine</div>
+        <div class="flow-detail">Deterministic FOIR + base risk score computed. Saved to FinancialData.</div>
+        <span class="flow-tag tag-db">DB</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">5</div>
+      <div class="flow-card">
+        <div class="flow-title">Credit Agent</div>
+        <div class="flow-detail">LLM produces 5C scores, decision, reasoning, eligible amount.</div>
+        <span class="flow-tag tag-ai">AI Agent</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">6</div>
+      <div class="flow-card">
+        <div class="flow-title">Persist Decision</div>
+        <div class="flow-detail">RiskAssessment saved. Application status updated to APPROVED/REJECTED/REVIEW.</div>
+        <span class="flow-tag tag-db">DB</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">7</div>
+      <div class="flow-card">
+        <div class="flow-title">Dashboard Render</div>
+        <div class="flow-detail">GET /applications/:id/decision → Intelligence Dashboard with full 5C viz.</div>
+        <span class="flow-tag tag-api">Client</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== TECH STACK ======================== -->
+<div class="stack-section">
+  <p class="section-title">Technology Stack</p>
+  <div class="stack-grid">
+    <div class="stack-card">
+      <div class="stack-category">Frontend</div>
+      <div class="stack-items">
+        <div class="stack-item"><span class="stack-name">Next.js 14</span><span class="stack-role">App Router, SSR</span></div>
+        <div class="stack-item"><span class="stack-name">Tailwind CSS</span><span class="stack-role">Utility-first styling</span></div>
+        <div class="stack-item"><span class="stack-name">ShadCN UI</span><span class="stack-role">Component library</span></div>
+        <div class="stack-item"><span class="stack-name">Recharts</span><span class="stack-role">Data visualisation</span></div>
+        <div class="stack-item"><span class="stack-name">React Context</span><span class="stack-role">Adaptive theming</span></div>
+        <div class="stack-item"><span class="stack-name">Zod</span><span class="stack-role">Client validation</span></div>
+      </div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-category">Backend</div>
+      <div class="stack-items">
+        <div class="stack-item"><span class="stack-name">NestJS</span><span class="stack-role">Modular monolith</span></div>
+        <div class="stack-item"><span class="stack-name">Prisma ORM</span><span class="stack-role">Type-safe DB access</span></div>
+        <div class="stack-item"><span class="stack-name">JWT</span><span class="stack-role">Auth tokens</span></div>
+        <div class="stack-item"><span class="stack-name">Zod</span><span class="stack-role">LLM output validation</span></div>
+        <div class="stack-item"><span class="stack-name">OpenAI SDK</span><span class="stack-role">LLM calls</span></div>
+        <div class="stack-item"><span class="stack-name">Anthropic SDK</span><span class="stack-role">LLM fallback</span></div>
+      </div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-category">Infrastructure</div>
+      <div class="stack-items">
+        <div class="stack-item"><span class="stack-name">Vercel</span><span class="stack-role">Frontend hosting</span></div>
+        <div class="stack-item"><span class="stack-name">Render</span><span class="stack-role">Backend API hosting</span></div>
+        <div class="stack-item"><span class="stack-name">Supabase PostgreSQL</span><span class="stack-role">Primary database</span></div>
+        <div class="stack-item"><span class="stack-name">Supabase Storage</span><span class="stack-role">PDF document store</span></div>
+        <div class="stack-item"><span class="stack-name">GitHub Actions</span><span class="stack-role">CI/CD pipeline</span></div>
+        <div class="stack-item"><span class="stack-name">Turborepo</span><span class="stack-role">Monorepo build cache</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  IntelliLend Architecture · Solo Developer · Quality-first · © 2026
+</div>
+
+</body>
+</html>

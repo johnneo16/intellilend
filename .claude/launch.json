@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "intellilend-web",
+      "runtimeExecutable": "/usr/local/bin/node",
+      "runtimeArgs": ["/Users/arindamchowdhury/Development/Web Dev/IntelliLend/apps/web/node_modules/next/dist/bin/next", "dev", "-p", "3000"],
+      "cwd": "/Users/arindamchowdhury/Development/Web Dev/IntelliLend/apps/web",
+      "port": 3000
+    }
+  ]
+}

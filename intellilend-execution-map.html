@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IntelliLend — Solutions Architect Execution Map</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1f2d47;
+    --text: #e2e8f0;
+    --text-muted: #64748b;
+    --text-dim: #334155;
+    --green: #10b981;
+    --indigo: #6366f1;
+    --teal: #14b8a6;
+    --purple: #a855f7;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --cyan: #06b6d4;
+  }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ======================== HEADER ======================== */
+  .hero {
+    background: linear-gradient(135deg, #0a0e1a 0%, #111827 40%, #0f172a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 56px 48px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 20%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(16,185,129,0.05) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(99,102,241,0.1);
+    border: 1px solid rgba(99,102,241,0.25);
+    color: #a5b4fc;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #e2e8f0 0%, #a5b4fc 50%, #6ee7b7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .hero-subtitle {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    max-width: 600px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+  }
+  .meta-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .meta-label { color: var(--text-muted); }
+  .meta-value { color: var(--text); font-weight: 500; }
+
+  /* ======================== LAYOUT ======================== */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px;
+  }
+
+  .section {
+    margin-bottom: 64px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .section-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  /* ======================== SPRINT PLAN ======================== */
+  .phase-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .phase-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .phase-card:hover { border-color: #334155; }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+
+  .phase-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .phase-0 { background: rgba(100,116,139,0.15); color: #94a3b8; }
+  .phase-1 { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+  .phase-2 { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+  .phase-3 { background: rgba(99,102,241,0.15); color: #c4b5fd; }
+  .phase-4 { background: rgba(20,184,166,0.15); color: #5eead4; }
+  .phase-5 { background: rgba(168,85,247,0.15); color: #d8b4fe; }
+  .phase-6 { background: rgba(245,158,11,0.15); color: #fcd34d; }
+  .phase-7 { background: rgba(239,68,68,0.15); color: #fca5a5; }
+
+  .phase-title { font-size: 15px; font-weight: 600; flex: 1; }
+  .phase-week {
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 10px;
+  }
+  .phase-status {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+  .status-pending { background: rgba(100,116,139,0.1); color: #64748b; }
+  .status-ready { background: rgba(16,185,129,0.1); color: #10b981; }
+
+  .phase-body {
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .tasks-col h4, .gate-col h4 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .task-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-size: 13px;
+    color: #94a3b8;
+  }
+  .task-check {
+    width: 16px; height: 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gate-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .gate-title { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .gate-criteria { list-style: none; }
+  .gate-criteria li {
+    font-size: 12px;
+    color: #64748b;
+    padding: 3px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .gate-criteria li::before { content: '✓'; color: var(--green); font-weight: 700; }
+
+  /* ======================== GITHUB STRATEGY ======================== */
+  .repo-tree {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #64748b;
+    margin-bottom: 24px;
+    overflow-x: auto;
+  }
+  .tree-dir { color: #a5b4fc; font-weight: 600; }
+  .tree-file { color: #94a3b8; }
+  .tree-comment { color: #334155; }
+
+  .branch-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .branch-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    background: var(--surface2);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+  .branch-table td {
+    padding: 12px 16px;
+    font-size: 13px;
+    border-bottom: 1px solid #0f1624;
+    color: #94a3b8;
+  }
+  .branch-table tr:last-child td { border-bottom: none; }
+  .branch-name {
+    font-family: monospace;
+    font-size: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #a5b4fc;
+  }
+  .protected-yes { color: #fcd34d; font-size: 11px; }
+  .protected-no { color: var(--text-dim); font-size: 11px; }
+
+  .commit-examples {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .commit-header {
+    padding: 12px 18px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .commit-item {
+    padding: 10px 18px;
+    border-bottom: 1px solid #0f1624;
+    font-family: monospace;
+    font-size: 12px;
+    display: flex;
+    gap: 12px;
+  }
+  .commit-item:last-child { border-bottom: none; }
+  .commit-type { color: #6ee7b7; font-weight: 600; min-width: 70px; }
+  .commit-scope { color: #a5b4fc; min-width: 90px; }
+  .commit-desc { color: #64748b; }
+
+  /* ======================== DECISIONS ======================== */
+  .adr-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .adr-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .adr-num {
+    font-size: 10px;
+    font-family: monospace;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+  .adr-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .adr-decision {
+    font-size: 12px;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  .adr-status {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(16,185,129,0.1);
+    color: var(--green);
+    border: 1px solid rgba(16,185,129,0.2);
+  }
+
+  /* ======================== NOTION LINKS ======================== */
+  .notion-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .notion-link {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .notion-link:hover {
+    border-color: #334155;
+    background: var(--surface2);
+    transform: translateY(-1px);
+  }
+  .notion-icon { font-size: 22px; flex-shrink: 0; }
+  .notion-info {}
+  .notion-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .notion-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .notion-arrow { margin-left: auto; color: var(--text-dim); font-size: 16px; }
+
+  /* ======================== RISK REGISTER ======================== */
+  .risk-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .risk-table th {
+    padding: 11px 16px;
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    background: var(--surface2);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+  .risk-table td {
+    padding: 11px 16px;
+    font-size: 12px;
+    border-bottom: 1px solid #0f1624;
+    color: #94a3b8;
+    vertical-align: top;
+  }
+  .risk-table tr:last-child td { border-bottom: none; }
+  .risk-high { color: #fca5a5; font-weight: 600; }
+  .risk-med { color: #fcd34d; font-weight: 600; }
+  .risk-low { color: #6ee7b7; font-weight: 600; }
+  .risk-mitigate { color: #64748b; font-size: 11px; line-height: 1.5; }
+
+  /* ======================== CHECKLIST ======================== */
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .check-group {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .check-group-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #64748b;
+    padding: 4px 0;
+  }
+  .check-box {
+    width: 14px; height: 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  /* ======================== FOOTER ======================== */
+  .doc-footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-link { color: #475569; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🏗️ Solutions Architect · Execution Map</div>
+  <h1>IntelliLend</h1>
+  <p class="hero-subtitle">AI-Powered Lending Intelligence Platform — Production Delivery Plan for a Solo Developer on Vercel + Supabase</p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <div class="meta-dot" style="background:#10b981; box-shadow:0 0 6px #10b981"></div>
+      <span class="meta-label">Timeline:</span>
+      <span class="meta-value">Quality-first, no fixed deadline</span>
+    </div>
+    <div class="meta-item">
+      <div class="meta-dot" style="background:#6366f1; box-shadow:0 0 6px #6366f1"></div>
+      <span class="meta-label">Deployment:</span>
+      <span class="meta-value">Vercel + Supabase</span>
+    </div>
+    <div class="meta-item">
+      <div class="meta-dot" style="background:#a855f7; box-shadow:0 0 6px #a855f7"></div>
+      <span class="meta-label">Team:</span>
+      <span class="meta-value">Solo Developer</span>
+    </div>
+    <div class="meta-item">
+      <div class="meta-dot" style="background:#f59e0b; box-shadow:0 0 6px #f59e0b"></div>
+      <span class="meta-label">Phases:</span>
+      <span class="meta-value">8 phases · 7 modules · 3 AI agents</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ======================== SECTION 1: SPRINT PLAN ======================== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:rgba(99,102,241,0.15); color:#a5b4fc">01</div>
+      <div class="section-title">Phased Delivery Plan</div>
+      <div class="section-sub">8 phases · sequential execution · quality gates</div>
+    </div>
+
+    <div class="phase-grid">
+
+      <!-- Phase 0 -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <span class="phase-badge phase-0">Phase 0</span>
+          <span class="phase-title">Foundation — Repo, Infra & Auth Skeleton</span>
+          <span class="phase-week">Week 1</span>
+          <span class="phase-status status-ready">Start Here</span>
+        </div>
+        <div class="phase-body">
+          <div class="tasks-col">
+            <h4>Tasks</h4>
+            <ul class="task-list">
+              <li class="task-item"><div class="task-check"></div>Initialise monorepo (pnpm + Turborepo)</li>
+              <li class="task-item"><div class="task-check"></div>Next.js App Router + Tailwind + ShadCN</li>
+              <li class="task-item"><div class="task-check"></div>NestJS + Prisma + Supabase DB setup</li>
+              <li class="task-item"><div class="task-check"></div>Supabase Storage bucket for PDFs</li>
+              <li class="task-item"><div class="task-check"></div>GitHub Actions CI (lint, type-check, build)</li>
+              <li class="task-item"><div class="task-check"></div>Vercel project (preview + prod environments)</li>
+              <li class="task-item"><div class="task-check"></div>JWT auth scaffolding (register, login, refresh)</li>
+              <li class="task-item"><div class="task-check"></div>.env.example + secrets management pattern</li>
+              <li class="task-item"><div class="task-check"></div>Base Prisma schema (Users, Applications stubs)</li>
+            </ul>
+          </div>
+          <div class="gate-col">
+            <h4>Exit Gate</h4>
+            <div class="gate-box">
+              <div class="gate-title">✅ Ready to proceed when:</div>
+              <ul class="gate-criteria">
+                <li>pnpm dev starts both apps error-free</li>
+                <li>Vercel preview deploys on every PR</li>
+                <li>/api/health returns 200</li>
+                <li>Database migrations run cleanly</li>
+                <li>CI pipeline is green</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 1 -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <span class="phase-badge phase-1">Phase 1</span>
+          <span class="phase-title">Loan Origination — Guest Flow & Application API</span>
+          <span class="phase-week">Week 2</span>
+          <span class="phase-status status-pending">Pending</span>
+        </div>
+        <div class="phase-body">
+          <div class="tasks-col">
+            <h4>Tasks</h4>
+            <ul class="task-list">
+              <li class="task-item"><div class="task-check"></div>Guest loan application form (3 fields + PDF upload)</li>
+              <li class="task-item"><div class="task-check"></div>Supabase Storage integration (PDF → signed URL)</li>
+              <li class="task-item"><div class="task-check"></div>POST /applications API with Zod validation</li>
+              <li class="task-item"><div class="task-check"></div>Guest → authenticated user conversion flow</li>
+              <li class="task-item"><div class="task-check"></div>Full Prisma schema: Users, LoanApplications, FinancialData</li>
+              <li class="task-item"><div class="task-check"></div>Application status state machine (PENDING → DECIDED)</li>
+              <li class="task-item"><div class="task-check"></div>Origination theme (🟢 Green, minimal guided UX)</li>
+              <li class="task-item"><div class="task-check"></div>Processing / loading screen with agent status</li>
+            </ul>
+          </div>
+          <div class="gate-col">
+            <h4>Exit Gate</h4>
+            <div class="gate-box">
+              <div class="gate-title">✅ Ready to proceed when:</div>
+              <ul class="gate-criteria">
+                <li>Form submits → record in Supabase DB</li>
+                <li>PDF uploads to storage bucket</li>
+                <li>Guest user converts to auth account</li>
+                <li>PDF MIME validation works server-side</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <span class="phase-badge phase-2">Phase 2</span>
+          <span class="phase-title">AI Underwriting Engine — 3 Agents + FOIR Logic</span>
+          <span class="phase-week">Week 3–4</span>
+          <span class="phase-status status-pending">Pending</span>
+        </div>
+        <div class="phase-body">
+          <div class="tasks-col">
+            <h4>Tasks</h4>
+            <ul class="task-list">
+              <li class="task-item"><div class="task-check"></div>Document Intelligence Agent (PDF → financial JSON)</li>
+              <li class="task-item"><div class="task-check"></div>Credit Decision Agent (5C scoring + decision)</li>
+              <li class="task-item"><div class="task-check"></div>Collections Strategy Agent (DPD → recovery action)</li>
+              <li class="task-item"><div class="task-check"></div>FOIR calculation engine (deterministic rules layer)</li>
+              <li class="task-item"><div class="task-check"></div>Risk score model (0–100 bands → Reject/Review/Approve)</li>
+              <li class="task-item"><div class="task-check"></div>Zod schemas for all LLM output validation</li>
+              <li class="task-item"><div class="task-check"></div>Agent orchestrator NestJS service</li>
+              <li class="task-item"><div class="task-check"></div>POST /applications/:id/underwrite endpoint</li>
+              <li class="task-item"><div class="task-check"></div>LLM retry + fallback handling (max 2 retries)</li>
+            </ul>
+          </div>
+          <div class="gate-col">
+            <h4>Exit Gate</h4>
+            <div class="gate-box">
+              <div class="gate-title">✅ Ready to proceed when:</div>
+              <ul class="gate-criteria">
+                <li>All 3 agents return valid Zod-validated JSON</li>
+                <li>FOIR correctly computed and stored</li>
+                <li>Risk score maps to correct decision band</li>
+                <li>LLM failures degrade gracefully</li>
+                <li>RiskAssessment record persisted in DB</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <span class="phase-badge phase-3">Phase 3</span>
+          <span class="phase-title">Intelligence Dashboard — Core UI Differentiator</span>
+          <span class="phase-week">Week 5–6</span>
+          <span class="phase-status status-pending">Pending</span>
+        </div>
+        <div class="phase-body">
+          <div class="tasks-col">
+            <h4>Tasks</h4>
+            <ul class="task-list">
+              <li class="task-item"><div class="task-check"></div>Decision summary header (APPROVE/REJECT/REVIEW badge)</li>
+              <li class="task-item"><div class="task-check"></div>5C credit cards (score + explanation per factor)</li>
+              <li class="task-item"><div class="task-check"></div>FOIR formula display with live computed values</li>
+              <li class="task-item"><div class="task-check"></div>Risk score gauge chart (0–100)</li>
+              <li class="task-item"><div class="task-check"></div>Balance trend line chart (Recharts)</li>
+              <li class="task-item"><div class="task-check"></div>Income vs obligations bar chart</li>
+              <li class="task-item"><div class="task-check"></div>5C contribution pie chart</li>
+              <li class="task-item"><div class="task-check"></div>AI Insights Panel (strengths, flags, reasoning)</li>
+              <li class="task-item"><div class="task-check"></div>What-If Simulator (income/loan sliders → recompute)</li>
+              <li class="task-item"><div class="task-check"></div>Blue/Indigo underwriting theme applied</li>
+            </ul>
+          </div>
+          <div class="gate-col">
+            <h4>Exit Gate</h4>
+            <div class="gate-box">
+              <div class="gate-title">✅ Ready to proceed when:</div>
+              <ul class="gate-criteria">
+                <li>Dashboard renders with real AI decision data</li>
+                <li>What-If triggers recompute without persisting</li>
+                <li>All 4 charts render correctly</li>
+                <li>5C cards show scores + explanations</li>
+                <li>AI Insights panel populated from LLM output</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 4 -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <span class="phase-badge phase-4">Phase 4</span>
+          <span class="phase-title">Loan Servicing — EMI Schedule & Payment Tracking</span>
+          <span class="phase-week">Week 7</span>
+          <span class="phase-status status-pending">Pending</span>
+        </div>
+        <div class="phase-body">
+          <div class="tasks-col">
+            <h4>Tasks</h4>
+            <ul class="task-list">
+              <li class="task-item"><div class="task-check"></div>EMI schedule generation (reducing balance amortisation)</li>
+              <li class="task-item"><div class="task-check"></div>Repayment table UI with status column</li>
+              <li class="task-item"><div class="task-check"></div>Payment status tracking (PAID/PENDING/OVERDUE)</li>
+              <li class="task-item"><div class="task-check"></div>Next due date display with DPD counter</li>
+              <li class="task-item"><div class="task-check"></div>GET /loans/:id/schedule endpoint</li>
+              <li class="task-item"><div class="task-check"></div>POST /loans/:id/repayments/pay endpoint</li>
+              <li class="task-item"><div class="task-check"></div>Teal/Cyan servicing theme applied</li>
+            </ul>
+          </div>
+          <div class="gate-col">
+            <h4>Exit Gate</h4>
+            <div class="gate-box">
+              <div class="gate-title">✅ Ready to proceed when:</div>
+              <ul class="gate-criteria">
+                <li>Approved loan generates correct EMI schedule</li>
+                <li>User can mark EMIs as paid</li>
+                <li>Outstanding balance recalculates correctly</li>
+                <li>DPD increments correctly on overdue items</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 5 -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <span class="phase-badge phase-5">Phase 5</span>
+          <span class="phase-title">Collections Module — AI-Driven Recovery Actions</span>
+          <span class="phase-week">Week 8</span>
+          <span class="phase-status status-pending">Pending</span>
+        </div>
+        <div class="phase-body">
+          <div class="tasks-col">
+            <h4>Tasks</h4>
+            <ul class="task-list">
+              <li class="task-item"><div class="task-check"></div>DPD calculation engine (per repayment)</li>
+              <li class="task-item"><div class="task-check"></div>Bucket classification (Current/B1/B2/B3/NPA)</li>
+              <li class="task-item"><div class="task-check"></div>Collections Agent integration endpoint</li>
+              <li class="task-item"><div class="task-check"></div>Priority recovery list UI (sorted by DPD)</li>
+              <li class="task-item"><div class="task-check"></div>Recovery action display (tone + message + next step)</li>
+              <li class="task-item"><div class="task-check"></div>GET /collections/queue endpoint</li>
+              <li class="task-item"><div class="task-check"></div>Purple/Magenta collections theme applied</li>
+            </ul>
+          </div>
+          <div class="gate-col">
+            <h4>Exit Gate</h4>
+            <div class="gate-box">
+              <div class="gate-title">✅ Ready to proceed when:</div>
+              <ul class="gate-criteria">
+                <li>DPD classified into correct buckets</li>
+                <li>Collections Agent returns action + tone</li>
+                <li>Recovery queue sorted by DPD descending</li>
+                <li>Actions logged to CollectionsActions table</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 6 -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <span class="phase-badge phase-6">Phase 6</span>
+          <span class="phase-title">Risk Analytics — Executive Portfolio Dashboard</span>
+          <span class="phase-week">Week 9</span>
+          <span class="phase-status status-pending">Pending</span>
+        </div>
+        <div class="phase-body">
+          <div class="tasks-col">
+            <h4>Tasks</h4>
+            <ul class="task-list">
+              <li class="task-item"><div class="task-check"></div>Portfolio KPI row (total loans, approval rate, avg risk, NPA)</li>
+              <li class="task-item"><div class="task-check"></div>Risk distribution pie chart (Approve/Review/Reject)</li>
+              <li class="task-item"><div class="task-check"></div>Approval rate trend line chart over time</li>
+              <li class="task-item"><div class="task-check"></div>FOIR distribution histogram</li>
+              <li class="task-item"><div class="task-check"></div>Collections DPD bucket summary chart</li>
+              <li class="task-item"><div class="task-check"></div>GET /analytics/portfolio endpoint (aggregated)</li>
+              <li class="task-item"><div class="task-check"></div>Amber/Orange analytics theme applied</li>
+            </ul>
+          </div>
+          <div class="gate-col">
+            <h4>Exit Gate</h4>
+            <div class="gate-box">
+              <div class="gate-title">✅ Ready to proceed when:</div>
+              <ul class="gate-criteria">
+                <li>All metrics from live DB aggregations</li>
+                <li>All charts render with real data</li>
+                <li>Date range filter works</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 7 -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <span class="phase-badge phase-7">Phase 7</span>
+          <span class="phase-title">Polish & Production — Harden, Theme, Deploy</span>
+          <span class="phase-week">Week 10</span>
+          <span class="phase-status status-pending">Pending</span>
+        </div>
+        <div class="phase-body">
+          <div class="tasks-col">
+            <h4>Tasks</h4>
+            <ul class="task-list">
+              <li class="task-item"><div class="task-check"></div>Context-Aware Adaptive Branding (all 5 themes wired)</li>
+              <li class="task-item"><div class="task-check"></div>Responsive design audit (375px mobile)</li>
+              <li class="task-item"><div class="task-check"></div>Error boundaries + loading skeletons everywhere</li>
+              <li class="task-item"><div class="task-check"></div>API rate limiting + input sanitisation</li>
+              <li class="task-item"><div class="task-check"></div>Supabase RLS policies on all tables</li>
+              <li class="task-item"><div class="task-check"></div>Environment variable audit (no secrets in code)</li>
+              <li class="task-item"><div class="task-check"></div>Vercel production deployment</li>
+              <li class="task-item"><div class="task-check"></div>End-to-end smoke test + Lighthouse ≥ 90</li>
+              <li class="task-item"><div class="task-check"></div>README + portfolio writeup</li>
+            </ul>
+          </div>
+          <div class="gate-col">
+            <h4>Launch Gate</h4>
+            <div class="gate-box">
+              <div class="gate-title">🚀 Production-ready when:</div>
+              <ul class="gate-criteria">
+                <li>Zero TypeScript errors, zero lint warnings</li>
+                <li>Lighthouse ≥ 90 all pages</li>
+                <li>Full user journey works end-to-end</li>
+                <li>RLS enabled on all Supabase tables</li>
+                <li>No secrets committed to repo</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================== SECTION 2: GITHUB STRATEGY ======================== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:rgba(16,185,129,0.15); color:#6ee7b7">02</div>
+      <div class="section-title">GitHub Repository Strategy</div>
+      <div class="section-sub">Monorepo · Turborepo · Conventional Commits</div>
+    </div>
+
+    <div class="repo-tree">
+<span class="tree-dir">intellilend/</span>
+├── <span class="tree-dir">apps/</span>
+│   ├── <span class="tree-dir">web/</span>                          <span class="tree-comment"># Next.js 14 App Router</span>
+│   │   ├── <span class="tree-dir">app/</span>
+│   │   │   ├── <span class="tree-dir">(auth)/</span>               <span class="tree-comment"># Login, register pages</span>
+│   │   │   ├── <span class="tree-dir">apply/</span>                <span class="tree-comment"># 🟢 Origination flow</span>
+│   │   │   ├── <span class="tree-dir">underwriting/[id]/</span>    <span class="tree-comment"># 🔵 Intelligence dashboard</span>
+│   │   │   ├── <span class="tree-dir">servicing/[id]/</span>       <span class="tree-comment"># 🔷 Loan servicing</span>
+│   │   │   ├── <span class="tree-dir">collections/</span>          <span class="tree-comment"># 🟣 Collections module</span>
+│   │   │   └── <span class="tree-dir">analytics/</span>            <span class="tree-comment"># 🟠 Risk analytics</span>
+│   │   ├── <span class="tree-dir">components/</span>
+│   │   │   ├── <span class="tree-dir">ui/</span>                   <span class="tree-comment"># ShadCN components</span>
+│   │   │   ├── <span class="tree-dir">charts/</span>               <span class="tree-comment"># Recharts wrappers</span>
+│   │   │   ├── <span class="tree-dir">origination/</span>          <span class="tree-comment"># Module-scoped components</span>
+│   │   │   ├── <span class="tree-dir">underwriting/</span>
+│   │   │   └── <span class="tree-dir">shared/</span>
+│   │   └── <span class="tree-dir">contexts/</span>               <span class="tree-comment"># ThemeContext, AuthContext</span>
+│   └── <span class="tree-dir">api/</span>                          <span class="tree-comment"># NestJS backend</span>
+│       └── <span class="tree-dir">src/</span>
+│           ├── <span class="tree-dir">auth/</span>
+│           ├── <span class="tree-dir">applications/</span>
+│           ├── <span class="tree-dir">underwriting/</span>
+│           ├── <span class="tree-dir">loans/</span>
+│           ├── <span class="tree-dir">repayments/</span>
+│           ├── <span class="tree-dir">collections/</span>
+│           ├── <span class="tree-dir">analytics/</span>
+│           ├── <span class="tree-dir">agents/</span>               <span class="tree-comment"># Document, Credit, Collections agents</span>
+│           └── <span class="tree-dir">storage/</span>
+├── <span class="tree-dir">packages/</span>
+│   ├── <span class="tree-dir">shared-types/</span>                 <span class="tree-comment"># Shared TS interfaces + Zod schemas</span>
+│   └── <span class="tree-dir">config/</span>                       <span class="tree-comment"># Shared ESLint, TSConfig, Tailwind</span>
+├── <span class="tree-dir">.github/</span>
+│   ├── <span class="tree-dir">workflows/</span>
+│   │   ├── <span class="tree-file">ci.yml</span>                    <span class="tree-comment"># lint → type-check → test → build</span>
+│   │   └── <span class="tree-file">deploy.yml</span>                <span class="tree-comment"># production deploy on main</span>
+│   └── <span class="tree-file">PULL_REQUEST_TEMPLATE.md</span>
+├── <span class="tree-file">turbo.json</span>
+├── <span class="tree-file">pnpm-workspace.yaml</span>
+└── <span class="tree-file">README.md</span>
+    </div>
+
+    <table class="branch-table">
+      <thead>
+        <tr>
+          <th>Branch</th>
+          <th>Purpose</th>
+          <th>Deploy Target</th>
+          <th>Protection</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="branch-name">main</span></td>
+          <td>Production — source of truth</td>
+          <td>Vercel production + Render production</td>
+          <td><span class="protected-yes">✦ Require PR + CI green</span></td>
+        </tr>
+        <tr>
+          <td><span class="branch-name">develop</span></td>
+          <td>Integration — all features merge here first</td>
+          <td>Vercel preview + Render preview</td>
+          <td><span class="protected-yes">✦ Require CI green</span></td>
+        </tr>
+        <tr>
+          <td><span class="branch-name">feature/[scope]-[desc]</span></td>
+          <td>New feature work (branch off develop)</td>
+          <td>Vercel per-branch preview</td>
+          <td><span class="protected-no">None</span></td>
+        </tr>
+        <tr>
+          <td><span class="branch-name">fix/[scope]-[desc]</span></td>
+          <td>Bug fixes</td>
+          <td>Vercel per-branch preview</td>
+          <td><span class="protected-no">None</span></td>
+        </tr>
+        <tr>
+          <td><span class="branch-name">chore/[desc]</span></td>
+          <td>Maintenance, dependencies, config</td>
+          <td>None</td>
+          <td><span class="protected-no">None</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="commit-examples">
+      <div class="commit-header">Conventional Commit Examples</div>
+      <div class="commit-item"><span class="commit-type">feat</span><span class="commit-scope">(underwriting)</span><span class="commit-desc">implement credit decision agent with 5C scoring</span></div>
+      <div class="commit-item"><span class="commit-type">feat</span><span class="commit-scope">(origination)</span><span class="commit-desc">add guest loan application form with PDF upload</span></div>
+      <div class="commit-item"><span class="commit-type">fix</span><span class="commit-scope">(origination)</span><span class="commit-desc">validate MIME type on bank statement upload</span></div>
+      <div class="commit-item"><span class="commit-type">chore</span><span class="commit-scope">(db)</span><span class="commit-desc">add Prisma migration for RiskAssessment table</span></div>
+      <div class="commit-item"><span class="commit-type">refactor</span><span class="commit-scope">(agents)</span><span class="commit-desc">extract FOIR calculation into shared utility</span></div>
+      <div class="commit-item"><span class="commit-type">feat</span><span class="commit-scope">(ui)</span><span class="commit-desc">implement context-aware adaptive branding system</span></div>
+      <div class="commit-item"><span class="commit-type">docs</span><span class="commit-scope">(api)</span><span class="commit-desc">add OpenAPI annotations to underwriting endpoints</span></div>
+      <div class="commit-item"><span class="commit-type">perf</span><span class="commit-scope">(analytics)</span><span class="commit-desc">add DB indexes for DPD and repayment date queries</span></div>
+    </div>
+  </div>
+
+  <!-- ======================== SECTION 3: ADRs ======================== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:rgba(245,158,11,0.15); color:#fcd34d">03</div>
+      <div class="section-title">Architecture Decision Records</div>
+      <div class="section-sub">7 key decisions · all accepted</div>
+    </div>
+
+    <div class="adr-grid">
+      <div class="adr-card">
+        <div class="adr-num">ADR-001</div>
+        <div class="adr-title">Monorepo with Turborepo + pnpm</div>
+        <div class="adr-decision">Single repo for web + api + packages. Turborepo task caching for fast CI. Shared TypeScript types without separate package publishing.</div>
+        <span class="adr-status">Accepted</span>
+      </div>
+      <div class="adr-card">
+        <div class="adr-num">ADR-002</div>
+        <div class="adr-title">Vercel + Supabase over AWS</div>
+        <div class="adr-decision">Zero infra management for solo developer. Supabase gives PostgreSQL + S3 storage + auth in one. Can migrate to AWS at any time without code changes.</div>
+        <span class="adr-status">Accepted</span>
+      </div>
+      <div class="adr-card">
+        <div class="adr-num">ADR-003</div>
+        <div class="adr-title">Modular Monolith over Microservices</div>
+        <div class="adr-decision">NestJS modules provide identical logical separation to microservices without network overhead, distributed transactions, or separate CI pipelines. Solo dev cannot maintain 5+ repos.</div>
+        <span class="adr-status">Accepted</span>
+      </div>
+      <div class="adr-card">
+        <div class="adr-num">ADR-004</div>
+        <div class="adr-title">Zod Validation for All LLM Outputs</div>
+        <div class="adr-decision">LLMs hallucinate field names/types even with structured output mode. Zod provides runtime safety net. Validation failures trigger retry with clarifying prompt (max 2 retries).</div>
+        <span class="adr-status">Accepted</span>
+      </div>
+      <div class="adr-card">
+        <div class="adr-num">ADR-005</div>
+        <div class="adr-title">Deterministic Rules + LLM Hybrid Underwriting</div>
+        <div class="adr-decision">FOIR, base risk score, and decision bands computed deterministically first. LLM used only for 5C narrative, reasoning, and confidence scoring. Ensures auditability and regulatory compliance.</div>
+        <span class="adr-status">Accepted</span>
+      </div>
+      <div class="adr-card">
+        <div class="adr-num">ADR-006</div>
+        <div class="adr-title">Context-Aware Adaptive Branding System</div>
+        <div class="adr-decision">Each lifecycle stage has its own colour theme via React ThemeContext + Tailwind CSS variables. Same component library, same layout system. Differentiates IntelliLend as product-grade.</div>
+        <span class="adr-status">Accepted</span>
+      </div>
+      <div class="adr-card">
+        <div class="adr-num">ADR-007</div>
+        <div class="adr-title">Custom JWT Auth over Supabase Auth</div>
+        <div class="adr-decision">Guest-to-user conversion flow requires custom state machine. Full control over token payload (include applicationId, userType). Can add Supabase Auth as optional SSO layer later.</div>
+        <span class="adr-status">Accepted</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SECTION 4: RISK REGISTER ======================== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:rgba(239,68,68,0.15); color:#fca5a5">04</div>
+      <div class="section-title">Delivery Risk Register</div>
+      <div class="section-sub">Identified risks with mitigation strategies</div>
+    </div>
+
+    <table class="risk-table">
+      <thead>
+        <tr>
+          <th>Risk</th>
+          <th>Impact</th>
+          <th>Likelihood</th>
+          <th>Mitigation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>LLM outputs are inconsistent / hallucinated fields</td>
+          <td><span class="risk-high">High</span></td>
+          <td><span class="risk-med">Medium</span></td>
+          <td class="risk-mitigate">Strict Zod schemas on all outputs. Retry logic (max 2). System prompt with explicit JSON format. Fallback to deterministic score if all retries fail.</td>
+        </tr>
+        <tr>
+          <td>PDF parsing by LLM is unreliable for non-standard statements</td>
+          <td><span class="risk-med">Medium</span></td>
+          <td><span class="risk-high">High</span></td>
+          <td class="risk-mitigate">Provide mock JSON bank statement format as alternative input. Document Agent falls back to user-declared income if extraction fails.</td>
+        </tr>
+        <tr>
+          <td>Supabase free tier connection limits under load</td>
+          <td><span class="risk-low">Low</span></td>
+          <td><span class="risk-med">Medium</span></td>
+          <td class="risk-mitigate">Use PgBouncer (Transaction mode). Portfolio project load is minimal. Upgrade to Pro tier ($25/mo) if needed.</td>
+        </tr>
+        <tr>
+          <td>Context drift — solo dev loses momentum mid-build</td>
+          <td><span class="risk-high">High</span></td>
+          <td><span class="risk-med">Medium</span></td>
+          <td class="risk-mitigate">Phase quality gates prevent unfinished code accumulation. Notion sprint board tracks daily progress. Commit daily even if just chore/progress commits.</td>
+        </tr>
+        <tr>
+          <td>OpenAI API cost spikes during What-If Simulator usage</td>
+          <td><span class="risk-med">Medium</span></td>
+          <td><span class="risk-low">Low</span></td>
+          <td class="risk-mitigate">Debounce What-If requests (500ms). Cache responses for identical inputs. Switch to cheaper model (gpt-4o-mini) for What-If simulation.</td>
+        </tr>
+        <tr>
+          <td>NestJS on Render cold starts add latency to first underwriting call</td>
+          <td><span class="risk-low">Low</span></td>
+          <td><span class="risk-high">High</span></td>
+          <td class="risk-mitigate">Add loading state in UI ("AI agents are analysing your documents…"). Render free tier has cold starts — upgrade to $7/mo starter plan for always-on.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ======================== SECTION 5: NOTION WORKSPACE ======================== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:rgba(168,85,247,0.15); color:#d8b4fe">05</div>
+      <div class="section-title">Notion Workspace Structure</div>
+      <div class="section-sub">All created · linked below</div>
+    </div>
+
+    <div class="notion-links">
+      <a class="notion-link" href="https://www.notion.so/336ac57d2b238152bf9be32674ac1cce" target="_blank">
+        <span class="notion-icon">🗺️</span>
+        <div class="notion-info">
+          <div class="notion-title">Execution Roadmap</div>
+          <div class="notion-desc">8 phases, tasks, exit gates</div>
+        </div>
+        <span class="notion-arrow">↗</span>
+      </a>
+      <a class="notion-link" href="https://www.notion.so/336ac57d2b2381a9b60ccdb51c7d4ed3" target="_blank">
+        <span class="notion-icon">🏗️</span>
+        <div class="notion-info">
+          <div class="notion-title">Architecture & System Design</div>
+          <div class="notion-desc">System overview, modules, data flow</div>
+        </div>
+        <span class="notion-arrow">↗</span>
+      </a>
+      <a class="notion-link" href="https://www.notion.so/336ac57d2b23815e81fcf33fb504f397" target="_blank">
+        <span class="notion-icon">📐</span>
+        <div class="notion-info">
+          <div class="notion-title">Database Schema (Prisma)</div>
+          <div class="notion-desc">Full schema.prisma with all models</div>
+        </div>
+        <span class="notion-arrow">↗</span>
+      </a>
+      <a class="notion-link" href="https://www.notion.so/336ac57d2b2381529e63dc98533389ac" target="_blank">
+        <span class="notion-icon">📡</span>
+        <div class="notion-info">
+          <div class="notion-title">API Contracts</div>
+          <div class="notion-desc">All endpoints with request/response schemas</div>
+        </div>
+        <span class="notion-arrow">↗</span>
+      </a>
+      <a class="notion-link" href="https://www.notion.so/336ac57d2b2381ffb031e60c939f286b" target="_blank">
+        <span class="notion-icon">🎨</span>
+        <div class="notion-info">
+          <div class="notion-title">Design System</div>
+          <div class="notion-desc">5 lifecycle themes, components, UX principles</div>
+        </div>
+        <span class="notion-arrow">↗</span>
+      </a>
+      <a class="notion-link" href="https://www.notion.so/336ac57d2b2381b8b9d8dd72e1d90b25" target="_blank">
+        <span class="notion-icon">🔧</span>
+        <div class="notion-info">
+          <div class="notion-title">Technical Decisions (ADRs)</div>
+          <div class="notion-desc">7 architecture decision records</div>
+        </div>
+        <span class="notion-arrow">↗</span>
+      </a>
+      <a class="notion-link" href="https://www.notion.so/336ac57d2b2381f2b3a9f5bac809553a" target="_blank">
+        <span class="notion-icon">📁</span>
+        <div class="notion-info">
+          <div class="notion-title">GitHub Strategy & DevOps</div>
+          <div class="notion-desc">Repo structure, branches, CI/CD, commits</div>
+        </div>
+        <span class="notion-arrow">↗</span>
+      </a>
+      <a class="notion-link" href="https://www.notion.so/336ac57d2b2381ea8b03ef66e0b246a6" target="_blank">
+        <span class="notion-icon">🚀</span>
+        <div class="notion-info">
+          <div class="notion-title">Deployment & Infrastructure</div>
+          <div class="notion-desc">Vercel + Supabase + CI/CD runbook</div>
+        </div>
+        <span class="notion-arrow">↗</span>
+      </a>
+      <a class="notion-link" href="https://www.notion.so/336ac57d2b2381119e80c169021f5bea" target="_blank">
+        <span class="notion-icon">🧩</span>
+        <div class="notion-info">
+          <div class="notion-title">Module Specifications</div>
+          <div class="notion-desc">User stories, screens, acceptance criteria</div>
+        </div>
+        <span class="notion-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ======================== SECTION 6: PRODUCTION CHECKLIST ======================== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:rgba(20,184,166,0.15); color:#5eead4">06</div>
+      <div class="section-title">Production Readiness Checklist</div>
+      <div class="section-sub">Complete before go-live</div>
+    </div>
+
+    <div class="checklist-grid">
+      <div class="check-group">
+        <div class="check-group-title">Security</div>
+        <div class="check-item"><div class="check-box"></div>JWT secret is cryptographically strong</div>
+        <div class="check-item"><div class="check-box"></div>No secrets in codebase (.env.local never committed)</div>
+        <div class="check-item"><div class="check-box"></div>Supabase RLS enabled on all tables</div>
+        <div class="check-item"><div class="check-box"></div>PDF upload validates MIME + file size server-side</div>
+        <div class="check-item"><div class="check-box"></div>API rate limiting on underwriting endpoints</div>
+        <div class="check-item"><div class="check-box"></div>Input sanitisation across all DTOs</div>
+      </div>
+      <div class="check-group">
+        <div class="check-group-title">AI & Data Quality</div>
+        <div class="check-item"><div class="check-box"></div>All LLM outputs pass Zod schema validation</div>
+        <div class="check-item"><div class="check-box"></div>FOIR calculated deterministically (not by LLM)</div>
+        <div class="check-item"><div class="check-box"></div>Retry logic handles LLM failures gracefully</div>
+        <div class="check-item"><div class="check-box"></div>What-If simulator never persists results to DB</div>
+        <div class="check-item"><div class="check-box"></div>Agent model version pinned in env vars</div>
+      </div>
+      <div class="check-group">
+        <div class="check-group-title">Frontend Quality</div>
+        <div class="check-item"><div class="check-box"></div>Lighthouse score ≥ 90 on all pages</div>
+        <div class="check-item"><div class="check-box"></div>All 5 lifecycle themes render correctly</div>
+        <div class="check-item"><div class="check-box"></div>Error boundaries on all async components</div>
+        <div class="check-item"><div class="check-box"></div>Loading skeletons for all data-fetching states</div>
+        <div class="check-item"><div class="check-box"></div>Responsive at 375px (mobile), 768px (tablet)</div>
+      </div>
+      <div class="check-group">
+        <div class="check-group-title">Backend & DB</div>
+        <div class="check-item"><div class="check-box"></div>All Prisma migrations applied to prod DB</div>
+        <div class="check-item"><div class="check-box"></div>PgBouncer connection string in use</div>
+        <div class="check-item"><div class="check-box"></div>DB indexes added for DPD + repayment queries</div>
+        <div class="check-item"><div class="check-box"></div>Health check endpoint returns 200</div>
+        <div class="check-item"><div class="check-box"></div>Supabase Storage bucket is private (signed URLs only)</div>
+      </div>
+      <div class="check-group">
+        <div class="check-group-title">CI/CD & DevOps</div>
+        <div class="check-item"><div class="check-box"></div>GitHub Actions CI is green on main</div>
+        <div class="check-item"><div class="check-box"></div>Vercel production deploy is live</div>
+        <div class="check-item"><div class="check-box"></div>Render backend is deployed and healthy</div>
+        <div class="check-item"><div class="check-box"></div>main branch is protected (PR + CI required)</div>
+        <div class="check-item"><div class="check-box"></div>Sentry or Vercel Analytics connected</div>
+      </div>
+      <div class="check-group">
+        <div class="check-group-title">Portfolio Readiness</div>
+        <div class="check-item"><div class="check-box"></div>README with architecture overview + screenshots</div>
+        <div class="check-item"><div class="check-box"></div>Demo data seeded (2–3 sample applications)</div>
+        <div class="check-item"><div class="check-box"></div>Live demo URL accessible publicly</div>
+        <div class="check-item"><div class="check-box"></div>Mock bank statement PDF available for demo</div>
+        <div class="check-item"><div class="check-box"></div>What-If Simulator works with demo account</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <span>IntelliLend · Solutions Architect Execution Map · Generated 2026-04-02</span>
+  <div class="footer-links">
+    <span style="color:#334155">Solo Developer · Vercel + Supabase · Quality-first</span>
+  </div>
+</div>
+
+</body>
+</html>

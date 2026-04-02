@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(export PATH=\"/usr/local/bin:/usr/bin:/bin\")",
+      "Bash(npm install:*)",
+      "Bash(~/.npm-global/bin/pnpm --version)",
+      "Read(//Users/arindamchowdhury/.npm-global/bin/**)",
+      "Read(//Users/arindamchowdhury/.nvm/**)",
+      "Bash(brew list:*)",
+      "Read(//opt/homebrew/bin/**)",
+      "Bash(export PNPM=\"$HOME/.npm-global/bin/pnpm\")",
+      "Bash(echo \"pnpm ready at $PNPM\")",
+      "Bash(export PATH=\"/usr/local/bin:$PATH\")",
+      "Bash(pnpm-workspace.yaml:*)",
+      "Bash(mkdir -p apps/web apps/api packages/ui packages/db packages/config)",
+      "Bash(~/.npm-global/bin/pnpm install:*)",
+      "Bash(~/.npm-global/bin/pnpm run:*)",
+      "WebFetch(domain:in.pinterest.com)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(kill 1032)"
+    ]
+  }
+}
