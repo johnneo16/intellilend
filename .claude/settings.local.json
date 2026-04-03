@@ -17,7 +17,14 @@
       "Bash(~/.npm-global/bin/pnpm run:*)",
       "WebFetch(domain:in.pinterest.com)",
       "mcp__Claude_Preview__preview_start",
-      "Bash(kill 1032)"
+      "Bash(kill 1032)",
+      "Bash(claude --version)",
+      "Bash(export PATH=\"/opt/homebrew/bin:/usr/local/bin:$PATH\")",
+      "Bash(CLAUDE_BIN=\"/Users/arindamchowdhury/Library/Application Support/Claude/claude-code-vm/2.1.87/claude\")",
+      "Bash(\"$CLAUDE_BIN\" mcp:*)",
+      "Bash(CLAUDE=\"/Users/arindamchowdhury/Library/Application Support/Claude/claude-code/2.1.87/claude.app/Contents/MacOS/claude\")",
+      "Bash(\"$CLAUDE\" --version)",
+      "Bash(\"$CLAUDE\" mcp:*)"
     ]
   }
 }
