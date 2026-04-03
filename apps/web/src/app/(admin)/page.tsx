@@ -25,7 +25,7 @@ const PIPELINE_STATS = [
 export default function DashboardPage() {
   return (
     <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: '#f4f6fb' }}>
-      <Header title="Dashboard" subtitle="Mumbai HQ · March 2024" action={{ label: 'New Application', href: '/applications/new' }} />
+      <Header title="Dashboard" subtitle="Mumbai HQ · March 2024" />
 
       <div className="flex-1 p-5 space-y-5">
         <HeroBanner />

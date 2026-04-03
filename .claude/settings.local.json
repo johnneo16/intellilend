@@ -24,7 +24,8 @@
       "Bash(\"$CLAUDE_BIN\" mcp:*)",
       "Bash(CLAUDE=\"/Users/arindamchowdhury/Library/Application Support/Claude/claude-code/2.1.87/claude.app/Contents/MacOS/claude\")",
       "Bash(\"$CLAUDE\" --version)",
-      "Bash(\"$CLAUDE\" mcp:*)"
+      "Bash(\"$CLAUDE\" mcp:*)",
+      "Bash(node -e \"const p = require\\(''./node_modules/framer-motion/package.json''\\); console.log\\(p.version\\)\")"
     ]
   }
 }
