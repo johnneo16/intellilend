@@ -60,7 +60,9 @@ export function ApplicationsTable({ applications }: Props) {
                     className="border-b hover:bg-indigo-50/40 transition-colors group"
                     style={{ borderColor: 'rgba(0,0,0,0.05)' }}>
                   <td className="px-5 py-3.5">
-                    <span className="font-mono text-xs font-semibold text-indigo-500">{app.applicationNumber}</span>
+                    <Link href={`/applications/${app.id}`} className="font-mono text-xs font-semibold text-indigo-500 hover:text-indigo-700 hover:underline transition-colors">
+                      {app.applicationNumber}
+                    </Link>
                   </td>
                   <td className="px-5 py-3.5">
                     <div className="flex items-center gap-2.5">

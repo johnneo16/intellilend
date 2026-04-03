@@ -113,7 +113,7 @@ export default function ApplyLandingPage() {
               <Zap className="w-4.5 h-4.5 text-white" style={{ width: 18, height: 18 }} />
             </motion.div>
             <span className="text-[18px] leading-none">
-              <span className="font-black text-slate-900">Intelli</span>
+              <span className="font-black" style={{ background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Intelli</span>
               <span className="font-light text-slate-500">Lend</span>
             </span>
           </Link>
@@ -548,7 +548,7 @@ export default function ApplyLandingPage() {
               <Zap className="w-3 h-3 text-white" />
             </div>
             <span className="text-sm">
-              <span className="font-black text-slate-900">Intelli</span>
+              <span className="font-black" style={{ background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Intelli</span>
               <span className="font-light text-slate-500">Lend</span>
             </span>
           </div>

@@ -85,8 +85,8 @@ export function Sidebar() {
               transition={{ duration: 0.15 }}
             >
               <div className="leading-none">
-                <span className="text-[15px] font-black text-white tracking-tight">Intelli</span>
-                <span className="text-[15px] font-light text-white/60 tracking-tight">Lend</span>
+                <span className="text-[15px] font-black tracking-tight" style={{ background: 'linear-gradient(135deg, #a5b4fc 0%, #c084fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Intelli</span>
+                <span className="text-[15px] font-light text-white/55 tracking-tight">Lend</span>
               </div>
               <div className="text-[10px] font-medium mt-1" style={{ color: 'rgba(165,180,252,0.5)' }}>
                 AI Lending Platform
@@ -192,19 +192,22 @@ export function Sidebar() {
             style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}
           >
             <div className="flex items-center gap-2.5 p-2 rounded-xl cursor-pointer transition-colors hover:bg-white/[0.05]">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black text-white shrink-0"
-                style={{
-                  background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                  boxShadow: '0 0 12px rgba(99,102,241,0.4)',
-                }}>
-                RM
+              <div className="relative shrink-0">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black text-white"
+                  style={{
+                    background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f59e0b 100%)',
+                    boxShadow: '0 0 16px rgba(99,102,241,0.5)',
+                  }}>
+                  AC
+                </div>
+                <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-400 border-2 border-white" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-xs font-semibold leading-tight" style={{ color: 'rgba(255,255,255,0.75)' }}>
-                  Rahul Mehta
+                  Arindam Chowdhury
                 </div>
                 <div className="text-[10px] leading-tight mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>
-                  Risk Manager
+                  Super Admin
                 </div>
               </div>
               <Settings className="w-3.5 h-3.5 shrink-0" style={{ color: 'rgba(255,255,255,0.25)' }} />

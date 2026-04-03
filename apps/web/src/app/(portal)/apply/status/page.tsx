@@ -64,7 +64,7 @@ export default function StatusPage() {
               <Zap className="w-4 h-4 text-white" />
             </div>
             <span className="text-[17px] leading-none">
-              <span className="font-black text-slate-900">Intelli</span>
+              <span className="font-black" style={{ background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Intelli</span>
               <span className="font-light text-slate-500">Lend</span>
             </span>
           </Link>
