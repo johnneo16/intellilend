@@ -12,6 +12,7 @@ interface RingGaugeProps {
   sublabel?: string
   showValue?: boolean
   animate?: boolean
+  valueColor?: string  // override center number color
 }
 
 export function RingGauge({
@@ -25,6 +26,7 @@ export function RingGauge({
   sublabel,
   showValue = true,
   animate = true,
+  valueColor,
 }: RingGaugeProps) {
   const pct = Math.min(Math.max(value / max, 0), 1)
   const r = (size - strokeWidth) / 2
@@ -63,7 +65,10 @@ export function RingGauge({
       {(showValue || label) && (
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
           {showValue && (
-            <span className="font-black text-white leading-none" style={{ fontSize: size * 0.22 }}>
+            <span
+              className="font-black leading-none"
+              style={{ fontSize: size * 0.22, color: valueColor ?? '#ffffff' }}
+            >
               {Math.round(value)}
             </span>
           )}

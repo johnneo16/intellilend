@@ -372,7 +372,8 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
                     size={100}
                     strokeWidth={8}
                     color={gaugeColor}
-                    trackColor="rgba(0,0,0,0.06)"
+                    trackColor="rgba(0,0,0,0.08)"
+                    valueColor="#1e293b"
                     showValue
                     label="AI Score"
                   />

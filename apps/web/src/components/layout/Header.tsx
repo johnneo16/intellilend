@@ -78,14 +78,15 @@ export function Header({ title, subtitle, action }: HeaderProps) {
             <span>Search… ⌘K</span>
           </button>
 
-          <button
-            className="relative p-2 rounded-lg transition-colors hover:bg-slate-100"
+          <Link
+            href="/notifications"
+            className="relative p-2 rounded-lg transition-colors hover:bg-slate-100 inline-flex items-center justify-center"
             style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.09)', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
           >
             <Bell className="w-4 h-4 text-slate-500" />
             <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-red-500"
                   style={{ boxShadow: '0 0 4px rgba(239,68,68,0.6)' }} />
-          </button>
+          </Link>
 
           <button
             className="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 transition-all hover:bg-slate-100"
