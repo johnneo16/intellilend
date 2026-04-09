@@ -6,9 +6,9 @@ import { formatCurrency } from '@/lib/utils'
 import { Phone, Mail, MessageCircle, X, Send } from 'lucide-react'
 
 const COLLECTIONS = [
-  { id: 'C001', borrower: 'Deepak Nair',   loan: 'L003', overdueDays: 5,  amount: 31500, bucket: 'BUCKET_1', action: 'Soft Reminder', email: 'deepak.nair@email.com',   phone: '+91 98765 43210' },
-  { id: 'C002', borrower: 'Ravi Kumar',    loan: 'L012', overdueDays: 18, amount: 22400, bucket: 'BUCKET_2', action: 'Call Required', email: 'ravi.kumar@email.com',     phone: '+91 87654 32109' },
-  { id: 'C003', borrower: 'Fatima Sheikh', loan: 'L019', overdueDays: 45, amount: 18900, bucket: 'BUCKET_3', action: 'Legal Notice',  email: 'fatima.sheikh@email.com',  phone: '+91 76543 21098' },
+  { id: 'C001', borrower: 'Deepak Nair',   loan: 'L003', overdueDays: 5,  amount: 31500, bucket: 'BUCKET_1', action: 'Soft Reminder', email: 'deepak.nair@email.com',   phone: '+91 98765 00000' },
+  { id: 'C002', borrower: 'Ravi Kumar',    loan: 'L012', overdueDays: 18, amount: 22400, bucket: 'BUCKET_2', action: 'Call Required', email: 'ravi.kumar@email.com',     phone: '+91 87654 00000' },
+  { id: 'C003', borrower: 'Fatima Sheikh', loan: 'L019', overdueDays: 45, amount: 18900, bucket: 'BUCKET_3', action: 'Legal Notice',  email: 'fatima.sheikh@email.com',  phone: '+91 76543 00000' },
 ]
 
 type ModalType = 'call' | 'mail' | 'whatsapp' | null

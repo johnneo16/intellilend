@@ -8,7 +8,7 @@ import {
 type State = 'LOOKUP' | 'PAYMENT' | 'CONFIRMATION'
 
 const MOCK_LOAN = {
-  id: 'APP-HOM-001247',
+  id: 'ILL-2024-001247',
   borrower: 'Priya Sharma',
   loanType: 'Home Loan',
   outstandingAmount: 4312500,
@@ -24,7 +24,7 @@ function formatINR(amount: number) {
 
 function isValidLoanId(input: string) {
   const val = input.trim().toUpperCase()
-  return val.startsWith('APP-') || val.startsWith('L0')
+  return val.startsWith('ILL-') || val.startsWith('L0')
 }
 
 const UPI_APPS = [
@@ -184,7 +184,7 @@ export default function PayPage() {
                 value={loanInput}
                 onChange={e => { setLoanInput(e.target.value); setError('') }}
                 onKeyDown={e => e.key === 'Enter' && handleLookup()}
-                placeholder="APP-HOM-001247"
+                placeholder="ILL-2024-001247"
                 className="w-full px-4 py-3 rounded-xl text-sm text-slate-800 placeholder-slate-300 border border-slate-200 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 transition-all font-mono mb-4"
               />
 
@@ -213,7 +213,7 @@ export default function PayPage() {
               </button>
 
               <p className="text-center text-xs text-slate-400 mt-4">
-                Demo: try <span className="font-mono text-indigo-500">APP-HOM-001247</span>
+                Demo: try <span className="font-mono text-indigo-500">ILL-2024-001247</span>
               </p>
             </div>
           </div>

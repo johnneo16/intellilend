@@ -863,12 +863,11 @@ function BorrowerApplicationInner() {
   const [uploads, setUploads] = useState<UploadedFiles>({})
   const [submitted, setSubmitted] = useState(false)
   const [appId] = useState(() => {
-    const code = TYPE_CODE[INITIAL.loanType]
-    return `APP-${code}-${String(100000 + Math.floor(Math.random() * 900000)).slice(0, 6)}`
+    const seq = 1248 + Math.floor(Math.random() * 100)
+    return `ILL-2024-${String(seq).padStart(6, '0')}`
   })
 
-  // Recalculate appId based on selected loan type when we get to step 5
-  const finalAppId = `APP-${TYPE_CODE[form.loanType]}-${appId.split('-')[2]}`
+  const finalAppId = appId
 
   function updateField<K extends keyof FormData>(k: K, v: FormData[K]) {
     setForm(f => ({ ...f, [k]: v }))
