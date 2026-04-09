@@ -34,7 +34,7 @@ export default function CollectionsPage() {
   }
 
   return (
-    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: '#f4f6fb' }}>
+    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: 'var(--bg-primary)' }}>
       <Header title="Collections" subtitle="3 overdue accounts · ₹72,800 at risk" />
       <div className="flex-1 p-5 space-y-4">
 
@@ -45,7 +45,7 @@ export default function CollectionsPage() {
             { label: 'Bucket 2 (31-60 days)', count: 1, amount: 22400, color: '#ef4444', border: '#fecaca' },
             { label: 'Bucket 3 (60+ days)',   count: 1, amount: 18900, color: '#dc2626', border: '#fecdd3' },
           ].map(b => (
-            <div key={b.label} className="rounded-xl p-4 bg-white" style={{ border: `1px solid ${b.border}`, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+            <div key={b.label} className="rounded-xl p-4" style={{ background: 'var(--bg-card)', border: `1px solid ${b.border}`, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
               <div className="text-2xl font-black text-slate-900">{b.count}</div>
               <div className="text-xs text-slate-500 mt-0.5">{b.label}</div>
               <div className="text-sm font-bold mt-1.5" style={{ color: b.color }}>{formatCurrency(b.amount)}</div>
@@ -54,8 +54,8 @@ export default function CollectionsPage() {
         </div>
 
         {/* Overdue accounts table */}
-        <div className="bg-white rounded-xl overflow-hidden" style={{ border: '1px solid rgba(0,0,0,0.07)', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-          <div className="px-5 py-4 border-b flex items-center justify-between" style={{ borderColor: 'rgba(0,0,0,0.06)', background: '#f8faff' }}>
+        <div className="rounded-xl overflow-hidden" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+          <div className="px-5 py-4 border-b flex items-center justify-between" style={{ borderColor: 'rgba(0,0,0,0.06)', background: 'var(--bg-elevated)' }}>
             <div>
               <h2 className="text-sm font-bold text-slate-800">Overdue Accounts</h2>
               <p className="text-[11px] text-slate-400 mt-0.5">Use Phone · Mail · WhatsApp to contact borrowers</p>
@@ -63,7 +63,7 @@ export default function CollectionsPage() {
           </div>
           <table className="w-full text-sm">
             <thead>
-              <tr style={{ background: '#f8faff', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+              <tr style={{ background: 'var(--bg-elevated)', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
                 {['Borrower', 'Loan', 'Overdue', 'EMI Due', 'Bucket', 'Recommended Action', 'Contact'].map(h => (
                   <th key={h} className="px-5 py-3 text-left text-[10px] font-bold text-slate-400 uppercase tracking-wider">{h}</th>
                 ))}
@@ -125,8 +125,8 @@ export default function CollectionsPage() {
       {modal && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setModal(null)}>
           <div
-            className="bg-white rounded-2xl w-full max-w-md shadow-2xl"
-            style={{ border: '1px solid rgba(0,0,0,0.08)' }}
+            className="rounded-2xl w-full max-w-md shadow-2xl"
+            style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}
             onClick={e => e.stopPropagation()}
           >
             {/* Header */}
@@ -146,7 +146,7 @@ export default function CollectionsPage() {
 
             <div className="p-5 space-y-4">
               {/* Borrower info */}
-              <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: '#f8faff', border: '1px solid rgba(0,0,0,0.06)' }}>
+              <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: 'var(--bg-elevated)', border: '1px solid rgba(0,0,0,0.06)' }}>
                 <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-black text-white shrink-0"
                      style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}>
                   {modal.borrower.borrower.split(' ').map(n => n[0]).join('')}
@@ -198,7 +198,7 @@ export default function CollectionsPage() {
                     <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Message</label>
                     <textarea
                       className="mt-1 w-full text-xs text-slate-700 resize-none rounded-xl p-3 outline-none focus:ring-2 focus:ring-indigo-300"
-                      style={{ border: '1px solid rgba(0,0,0,0.1)', background: '#f8faff', minHeight: 120 }}
+                      style={{ border: '1px solid rgba(0,0,0,0.1)', background: 'var(--bg-elevated)', minHeight: 120 }}
                       value={mailBody}
                       onChange={e => setMailBody(e.target.value)}
                     />

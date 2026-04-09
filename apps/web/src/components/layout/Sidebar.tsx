@@ -4,10 +4,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { useTheme } from '@/lib/theme-context'
 import {
   LayoutDashboard, FileText, Brain, CreditCard, AlertTriangle,
   BarChart3, Settings, ChevronLeft, ChevronRight,
-  Users, Shield, Bell, HelpCircle, Zap,
+  Users, Shield, Bell, HelpCircle, Zap, Sun, Moon,
 } from 'lucide-react'
 
 const NAV_ITEMS = [
@@ -42,6 +43,7 @@ const NAV_ITEMS = [
 export function Sidebar() {
   const pathname = usePathname()
   const [collapsed, setCollapsed] = useState(false)
+  const { theme, toggle } = useTheme()
 
   return (
     <motion.aside
@@ -180,6 +182,49 @@ export function Sidebar() {
           </div>
         ))}
       </nav>
+
+      {/* Theme toggle */}
+      <div className="relative z-10 px-3 pb-2 shrink-0">
+        <motion.button
+          onClick={toggle}
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.96 }}
+          className={cn(
+            'w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl transition-colors',
+            collapsed && 'justify-center px-0',
+          )}
+          style={{
+            background: 'rgba(255,255,255,0.06)',
+            border: '1px solid rgba(255,255,255,0.08)',
+          }}
+          title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {theme === 'dark' ? (
+              <motion.span key="sun" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.18 }}>
+                <Sun className="w-4 h-4 shrink-0" style={{ color: '#fbbf24' }} />
+              </motion.span>
+            ) : (
+              <motion.span key="moon" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.18 }}>
+                <Moon className="w-4 h-4 shrink-0" style={{ color: 'rgba(165,180,252,0.7)' }} />
+              </motion.span>
+            )}
+          </AnimatePresence>
+          <AnimatePresence initial={false}>
+            {!collapsed && (
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="text-[12px] font-medium"
+                style={{ color: 'rgba(255,255,255,0.45)' }}
+              >
+                {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </motion.button>
+      </div>
 
       {/* User profile */}
       <AnimatePresence initial={false}>

@@ -14,8 +14,8 @@ import {
 } from 'lucide-react'
 
 const cardStyle = {
-  background: '#ffffff',
-  border: '1px solid rgba(0,0,0,0.07)',
+  background: 'var(--bg-card)',
+  border: '1px solid var(--border-subtle)',
   boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
 }
 
@@ -69,7 +69,7 @@ export default function NotificationsPage() {
   }
 
   return (
-    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: '#f4f6fb' }}>
+    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: 'var(--bg-primary)' }}>
       <Header title="Alerts" subtitle="4 unread · 2 require action" />
 
       <div className="flex-1 p-5 space-y-5">

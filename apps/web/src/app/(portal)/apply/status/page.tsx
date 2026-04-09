@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Zap, Search, ArrowRight, CheckCircle2, Clock, AlertCircle,
-  FileText, Brain, CreditCard, ChevronRight, Phone, Mail,
+  FileText, Brain, CreditCard, ChevronRight, Phone, Mail, Smartphone,
 } from 'lucide-react'
 
 const MOCK_STATUS = {
@@ -197,6 +197,17 @@ export default function StatusPage() {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* Pay EMI CTA */}
+              <div className="px-6 py-4 border-t border-slate-100">
+                <Link
+                  href="/pay"
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold text-white transition-all hover:scale-[1.01] active:scale-[0.99]"
+                  style={{ background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', boxShadow: '0 4px 14px rgba(99,102,241,0.3)' }}
+                >
+                  <Smartphone className="w-4 h-4" /> Pay EMI via UPI
+                </Link>
               </div>
 
               {/* Contact */}

@@ -9,8 +9,8 @@ import {
 import { DEFAULT_LOAN_CONFIG, LOAN_TYPES, fmtINR, calcEMI, type LoanType, type LoanProduct } from '@/lib/loan-config'
 
 const cardStyle = {
-  background: '#ffffff',
-  border: '1px solid rgba(0,0,0,0.07)',
+  background: 'var(--bg-card)',
+  border: '1px solid var(--border-subtle)',
   boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
 }
 
@@ -89,7 +89,8 @@ function NumField({ label, value, onChange, suffix, min, max, step = 0.01 }: {
         <input
           type="number" value={value} min={min} max={max} step={step}
           onChange={e => onChange(parseFloat(e.target.value) || 0)}
-          className="w-full pl-3 pr-8 py-2 rounded-lg text-xs text-slate-800 font-semibold border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-300 transition"
+          className="w-full pl-3 pr-8 py-2 rounded-lg text-xs font-semibold border focus:outline-none focus:ring-2 focus:ring-indigo-300 transition"
+          style={{ background: 'var(--bg-card)', color: 'var(--text-primary)', borderColor: 'var(--border-default)' }}
         />
         {suffix && <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400">{suffix}</span>}
       </div>
@@ -108,7 +109,7 @@ function LoanProductCard({
   const sampleEMI = calcEMI(product.minAmt * 5, product.rate, Math.min(120, product.maxTenure))
 
   return (
-    <div className="rounded-xl p-4 space-y-4" style={{ background: '#f8faff', border: '1px solid #e0e7ff' }}>
+    <div className="rounded-xl p-4 space-y-4" style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)' }}>
       {/* Header */}
       <div className="flex items-center gap-2">
         <span className="text-xl">{product.emoji}</span>
@@ -237,7 +238,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: '#f4f6fb' }}>
+    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: 'var(--bg-primary)' }}>
       <Header title="Settings" subtitle="System configuration · Mumbai HQ" />
 
       <div className="flex-1 p-5 space-y-4 max-w-3xl mx-auto w-full">
@@ -255,7 +256,8 @@ export default function SettingsPage() {
               <div className="flex items-center gap-2 shrink-0">
                 <button
                   onClick={handleReset}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-500 hover:text-slate-700 bg-white border border-slate-200 hover:border-slate-300 transition-all"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+                  style={{ background: 'var(--bg-card)', color: 'var(--text-secondary)', border: '1px solid var(--border-default)' }}
                 >
                   <RotateCcw className="w-3 h-3" /> Reset
                 </button>

@@ -25,8 +25,8 @@ const AGENT_PIPELINE = [
 function AgentCard({ agent, expanded, onToggle }: { agent: typeof AGENT_PIPELINE[0]; expanded: boolean; onToggle: () => void }) {
   const Icon = agent.icon
   return (
-    <div className="rounded-xl overflow-hidden transition-all duration-200 bg-white"
-         style={{ border: `1px solid ${expanded ? agent.color + '30' : 'rgba(0,0,0,0.07)'}`, boxShadow: expanded ? `0 4px 16px ${agent.color}10` : '0 1px 3px rgba(0,0,0,0.05)' }}>
+    <div className="rounded-xl overflow-hidden transition-all duration-200"
+         style={{ background: 'var(--bg-card)', border: `1px solid ${expanded ? agent.color + '30' : 'var(--border-subtle)'}`, boxShadow: expanded ? `0 4px 16px ${agent.color}10` : '0 1px 3px rgba(0,0,0,0.05)' }}>
       <button className="w-full flex items-center gap-4 p-4 text-left" onClick={onToggle}>
         <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
              style={{ background: `${agent.color}12`, border: `1px solid ${agent.color}25` }}>
@@ -56,7 +56,7 @@ function AgentCard({ agent, expanded, onToggle }: { agent: typeof AGENT_PIPELINE
       </button>
 
       {expanded && (
-        <div className="px-4 pb-4 space-y-3 border-t" style={{ borderColor: `${agent.color}20`, background: '#f8faff' }}>
+        <div className="px-4 pb-4 space-y-3 border-t" style={{ borderColor: `${agent.color}20`, background: 'var(--bg-elevated)' }}>
           <div className="pt-3">
             <div className="flex items-center justify-between mb-1.5">
               <span className="text-[10px] text-slate-500 font-medium">Confidence score</span>
@@ -93,14 +93,14 @@ export default function UnderwritingPage() {
   const totalMs     = AGENT_PIPELINE.reduce((s, a) => s + a.ms, 0)
 
   return (
-    <div className="flex flex-col h-full overflow-hidden" style={{ background: '#f4f6fb' }}>
+    <div className="flex flex-col h-full overflow-hidden" style={{ background: 'var(--bg-primary)' }}>
       <Header title="AI Underwriting" subtitle={`${QUEUE.length} in queue · 2 agents active`} />
 
       <div className="flex flex-1 overflow-hidden">
         {/* Queue */}
-        <div className="w-64 shrink-0 flex flex-col overflow-hidden bg-white"
-             style={{ borderRight: '1px solid rgba(0,0,0,0.07)' }}>
-          <div className="px-3 py-3 border-b shrink-0" style={{ borderColor: 'rgba(0,0,0,0.06)', background: '#f8faff' }}>
+        <div className="w-64 shrink-0 flex flex-col overflow-hidden"
+             style={{ background: 'var(--bg-card)', borderRight: '1px solid var(--border-subtle)' }}>
+          <div className="px-3 py-3 border-b shrink-0" style={{ borderColor: 'var(--border-subtle)', background: 'var(--bg-elevated)' }}>
             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Queue ({QUEUE.length})</span>
           </div>
           <div className="flex-1 overflow-y-auto scrollbar-thin p-2 space-y-1.5">
@@ -110,8 +110,8 @@ export default function UnderwritingPage() {
                 <button key={item.id} onClick={() => setSelected(item)}
                   className="w-full text-left p-3 rounded-xl transition-all"
                   style={{
-                    background: isActive ? 'linear-gradient(135deg, #eef2ff, #f5f3ff)' : '#f8faff',
-                    border: `1px solid ${isActive ? '#c7d2fe' : 'rgba(0,0,0,0.06)'}`,
+                    background: isActive ? 'linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.08))' : 'var(--bg-elevated)',
+                    border: `1px solid ${isActive ? 'rgba(99,102,241,0.35)' : 'var(--border-subtle)'}`,
                     boxShadow: isActive ? '0 2px 8px rgba(99,102,241,0.1)' : 'none',
                   }}>
                   <div className="flex items-start justify-between mb-1.5">
@@ -141,7 +141,7 @@ export default function UnderwritingPage() {
         {/* Detail */}
         <div className="flex-1 overflow-y-auto scrollbar-thin p-5 space-y-4">
           {/* App header */}
-          <div className="rounded-xl p-5 bg-white" style={{ border: '1px solid rgba(0,0,0,0.07)', boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.05)' }}>
+          <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.05)' }}>
             <div className="flex items-start justify-between mb-5">
               <div>
                 <div className="flex items-center gap-2 mb-1">
@@ -160,7 +160,7 @@ export default function UnderwritingPage() {
                 { label: 'LTV',          value: '72%',      raw: 72,  color: '#10b981' },
                 { label: 'Income',       value: '₹85K/mo',  raw: 75,  color: '#6366f1' },
               ].map(({ label, value, raw, color }) => (
-                <div key={label} className="p-3 rounded-xl text-center bg-slate-50 border border-slate-100">
+                <div key={label} className="p-3 rounded-xl text-center" style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)' }}>
                   <div className="text-sm font-black text-slate-900 mb-1">{value}</div>
                   <Progress value={raw} indicatorColor={color} className="h-1 mb-1.5" />
                   <div className="text-[10px] text-slate-400">{label}</div>
@@ -190,7 +190,7 @@ export default function UnderwritingPage() {
           </div>
 
           {/* Decision */}
-          <div className="rounded-xl p-5 bg-white" style={{ border: '1px solid rgba(99,102,241,0.2)', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(99,102,241,0.06)' }}>
+          <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid rgba(99,102,241,0.2)', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(99,102,241,0.06)' }}>
             <div className="flex items-start justify-between mb-4">
               <div>
                 <div className="text-sm font-bold text-slate-800">Underwriter Decision</div>

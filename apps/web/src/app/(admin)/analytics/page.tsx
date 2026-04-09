@@ -5,7 +5,7 @@ import { CHART_DATA } from '@/lib/mock-data'
 
 export default function AnalyticsPage() {
   return (
-    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: '#f4f6fb' }}>
+    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: 'var(--bg-primary)' }}>
       <Header title="Analytics" subtitle="Portfolio performance · March 2024" />
       <div className="flex-1 p-5 space-y-4">
         <DisbursementChart data={CHART_DATA} />

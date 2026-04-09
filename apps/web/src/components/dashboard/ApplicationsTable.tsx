@@ -28,10 +28,10 @@ interface Props { applications: LoanApplication[] }
 
 export function ApplicationsTable({ applications }: Props) {
   return (
-    <div className="rounded-xl overflow-hidden bg-white"
-         style={{ border: '1px solid rgba(0,0,0,0.07)', boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.05)' }}>
+    <div className="rounded-xl overflow-hidden"
+         style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.05)' }}>
       <div className="flex items-center justify-between px-5 py-4 border-b"
-           style={{ borderColor: 'rgba(0,0,0,0.06)', background: '#f8faff' }}>
+           style={{ borderColor: 'rgba(0,0,0,0.06)', background: 'var(--bg-elevated)' }}>
         <div>
           <h2 className="text-sm font-bold text-slate-800">Recent Applications</h2>
           <p className="text-[10px] text-slate-400 mt-0.5">Live pipeline · last 48 hours</p>
@@ -44,7 +44,7 @@ export function ApplicationsTable({ applications }: Props) {
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr style={{ background: '#f8faff', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+            <tr style={{ background: 'var(--bg-elevated)', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
               {['Application', 'Applicant', 'Type', 'Amount', 'FOIR', 'AI Score', 'Status', ''].map(col => (
                 <th key={col} className="px-5 py-3 text-left text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   {col}

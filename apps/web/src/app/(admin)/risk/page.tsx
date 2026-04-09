@@ -7,8 +7,8 @@ import { RISK_RULES } from '@/lib/mock-data'
 import { ShieldCheck, Zap, XCircle } from 'lucide-react'
 
 const cardStyle = {
-  background: '#ffffff',
-  border: '1px solid rgba(0,0,0,0.07)',
+  background: 'var(--bg-card)',
+  border: '1px solid var(--border-subtle)',
   boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
 }
 
@@ -26,8 +26,7 @@ function CategoryBadge({ category }: { category: string }) {
   // Product needs purple — override with inline styles since CVA doesn't have purple
   if (category === 'Product') {
     return (
-      <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold"
-            style={{ background: '#f5f3ff', color: '#7c3aed', border: '1px solid #ddd6fe' }}>
+      <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-violet-50 text-violet-700 border border-violet-200 dark:bg-violet-900/30 dark:text-violet-300 dark:border-violet-700/50">
         {category}
       </span>
     )
@@ -45,7 +44,7 @@ function RiskRing({ score }: { score: number }) {
   return (
     <div className="relative w-20 h-20 flex items-center justify-center">
       <svg width="80" height="80" viewBox="0 0 80 80" className="-rotate-90">
-        <circle cx="40" cy="40" r={r} fill="none" stroke="#f1f5f9" strokeWidth="8" />
+        <circle cx="40" cy="40" r={r} fill="none" stroke="currentColor" strokeWidth="8" className="text-slate-200 dark:text-slate-700" />
         <circle
           cx="40" cy="40" r={r} fill="none"
           stroke={color} strokeWidth="8"
@@ -88,7 +87,7 @@ const STAT_CARDS = [
 
 export default function RiskPage() {
   return (
-    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: '#f4f6fb' }}>
+    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: 'var(--bg-primary)' }}>
       <Header title="Risk Engine" subtitle="8 active rules · 7 triggers today" />
 
       <div className="flex-1 p-5 space-y-5">

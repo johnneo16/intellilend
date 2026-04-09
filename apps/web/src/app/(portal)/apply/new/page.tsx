@@ -4,10 +4,11 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/utils'
+import { ThemeProvider, useTheme } from '@/lib/theme-context'
 import {
   Zap, User, Briefcase, IndianRupee, FileText, Brain,
   CheckCircle2, ChevronRight, ChevronLeft, Upload, AlertCircle,
-  ArrowLeft, Phone, Paperclip, X, RefreshCw, Shield,
+  ArrowLeft, Phone, Paperclip, X, RefreshCw, Shield, Sun, Moon,
 } from 'lucide-react'
 
 /* ── Types ─────────────────────────────────────────────────────────── */
@@ -115,15 +116,39 @@ const STEPS = [
 ]
 
 /* ── Portal nav ────────────────────────────────────────────────────── */
+function ThemeToggleButton() {
+  const { theme, toggle } = useTheme()
+  return (
+    <button
+      onClick={toggle}
+      className="p-2 rounded-lg transition-all hover:opacity-80"
+      style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-default)' }}
+      title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        {theme === 'dark' ? (
+          <motion.span key="sun" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.18 }} className="block">
+            <Sun className="w-4 h-4" style={{ color: '#fbbf24' }} />
+          </motion.span>
+        ) : (
+          <motion.span key="moon" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.18 }} className="block">
+            <Moon className="w-4 h-4" style={{ color: '#6366f1' }} />
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </button>
+  )
+}
+
 function PortalNav({ step }: { step: number }) {
   return (
     <header className="sticky top-0 z-50 px-6 py-4" style={{
-      background: 'rgba(248,250,255,0.92)',
+      background: 'color-mix(in srgb, var(--bg-primary) 92%, transparent)',
       backdropFilter: 'blur(20px)',
       borderBottom: '1px solid rgba(99,102,241,0.1)',
     }}>
       <div className="max-w-2xl mx-auto flex items-center justify-between">
-        <Link href="/apply" className="flex items-center gap-2 text-sm text-slate-500 hover:text-indigo-600 transition-colors">
+        <Link href="/apply" className="flex items-center gap-2 text-sm transition-colors hover:text-indigo-600" style={{ color: 'var(--text-secondary)' }}>
           <ArrowLeft className="w-4 h-4" /> Back
         </Link>
         <Link href="/apply" className="flex items-center gap-2">
@@ -133,11 +158,14 @@ function PortalNav({ step }: { step: number }) {
           </div>
           <span className="text-[15px] leading-none">
             <span className="font-black" style={{ background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Intelli</span>
-            <span className="font-light text-slate-500">Lend</span>
+            <span className="font-light" style={{ color: 'var(--text-muted)' }}>Lend</span>
           </span>
         </Link>
-        <div className="text-xs text-slate-400 font-medium">
-          Step <span className="text-slate-700 font-bold">{step}</span> / 5
+        <div className="flex items-center gap-3">
+          <ThemeToggleButton />
+          <div className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
+            Step <span className="font-bold" style={{ color: 'var(--text-primary)' }}>{step}</span> / 5
+          </div>
         </div>
       </div>
     </header>
@@ -147,7 +175,7 @@ function PortalNav({ step }: { step: number }) {
 /* ── Step progress bar ─────────────────────────────────────────────── */
 function StepBar({ current }: { current: number }) {
   return (
-    <div className="px-6 py-5 border-b shrink-0" style={{ borderColor: 'rgba(0,0,0,0.07)', background: '#f8faff' }}>
+    <div className="px-6 py-5 border-b shrink-0" style={{ borderColor: 'var(--border-subtle)', background: 'var(--bg-elevated)' }}>
       <div className="flex items-center justify-between">
         {STEPS.map((step, i) => {
           const done   = current > step.id
@@ -827,7 +855,7 @@ function validateStep4(loanType: LoanType, uploads: UploadedFiles): string | nul
 }
 
 /* ── Main page ─────────────────────────────────────────────────────── */
-export default function BorrowerApplicationPage() {
+function BorrowerApplicationInner() {
   const [step, setStep]       = useState(1)
   const [form, setForm]       = useState<FormData>(INITIAL)
   const [errors, setErrors]   = useState<Partial<Record<string, string>>>({})
@@ -876,13 +904,13 @@ export default function BorrowerApplicationPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 50%, #f0f4ff 100%)' }}>
+    <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
       <PortalNav step={step} />
 
       <div className="flex-1 flex flex-col p-5 max-w-2xl mx-auto w-full">
         <motion.div
-          className="rounded-2xl overflow-hidden w-full bg-white mt-4"
-          style={{ border: '1px solid rgba(0,0,0,0.07)', boxShadow: '0 8px 32px rgba(0,0,0,0.08)' }}
+          className="rounded-2xl overflow-hidden w-full mt-4"
+          style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: '0 8px 32px rgba(0,0,0,0.08)' }}
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
         >
@@ -926,8 +954,8 @@ export default function BorrowerApplicationPage() {
             </motion.div>
           </AnimatePresence>
 
-          <div className="flex items-center justify-between px-6 py-4 shrink-0 border-t bg-slate-50/80"
-            style={{ borderColor: 'rgba(0,0,0,0.07)' }}>
+          <div className="flex items-center justify-between px-6 py-4 shrink-0 border-t"
+            style={{ borderColor: 'var(--border-subtle)', background: 'var(--bg-elevated)' }}>
             <button onClick={() => setStep(s => Math.max(1, s - 1))} disabled={step === 1}
               className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold disabled:opacity-30 disabled:cursor-not-allowed text-slate-600 hover:bg-slate-100 bg-white border border-slate-200 transition-all">
               <ChevronLeft className="w-4 h-4" /> Back
@@ -956,5 +984,13 @@ export default function BorrowerApplicationPage() {
         </motion.div>
       </div>
     </div>
+  )
+}
+
+export default function BorrowerApplicationPage() {
+  return (
+    <ThemeProvider>
+      <BorrowerApplicationInner />
+    </ThemeProvider>
   )
 }

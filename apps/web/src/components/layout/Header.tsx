@@ -57,22 +57,22 @@ export function Header({ title, subtitle, action }: HeaderProps) {
       <header
         className="flex items-center justify-between px-5 py-3.5 shrink-0 sticky top-0 z-20"
         style={{
-          background: 'rgba(244,246,251,0.92)',
+          background: 'color-mix(in srgb, var(--bg-primary) 92%, transparent)',
           backdropFilter: 'blur(16px)',
-          borderBottom: '1px solid rgba(0,0,0,0.07)',
+          borderBottom: '1px solid var(--border-subtle)',
           boxShadow: '0 1px 0 rgba(0,0,0,0.03)',
         }}
       >
         <div>
-          <h1 className="text-base font-bold text-slate-900 leading-tight">{title}</h1>
-          {subtitle && <p className="text-[11px] text-slate-400 mt-0.5 leading-tight">{subtitle}</p>}
+          <h1 className="text-base font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>{title}</h1>
+          {subtitle && <p className="text-[11px] mt-0.5 leading-tight" style={{ color: 'var(--text-muted)' }}>{subtitle}</p>}
         </div>
 
         <div className="flex items-center gap-2">
           <button
             onClick={() => setOpen(true)}
-            className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all text-xs text-slate-400 hover:text-slate-600 w-44"
-            style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.09)', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
+            className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all text-xs w-44"
+            style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-default)', boxShadow: '0 1px 3px rgba(0,0,0,0.04)', color: 'var(--text-muted)' }}
           >
             <Search className="w-3.5 h-3.5 shrink-0" />
             <span>Search… ⌘K</span>
@@ -80,17 +80,17 @@ export function Header({ title, subtitle, action }: HeaderProps) {
 
           <Link
             href="/notifications"
-            className="relative p-2 rounded-lg transition-colors hover:bg-slate-100 inline-flex items-center justify-center"
-            style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.09)', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
+            className="relative p-2 rounded-lg transition-colors inline-flex items-center justify-center hover:opacity-80"
+            style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-default)', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
           >
-            <Bell className="w-4 h-4 text-slate-500" />
+            <Bell className="w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
             <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-red-500"
                   style={{ boxShadow: '0 0 4px rgba(239,68,68,0.6)' }} />
           </Link>
 
           <button
-            className="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 transition-all hover:bg-slate-100"
-            style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.09)', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
+            className="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all hover:opacity-80"
+            style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-default)', boxShadow: '0 1px 3px rgba(0,0,0,0.04)', color: 'var(--text-secondary)' }}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" style={{ boxShadow: '0 0 4px rgba(16,185,129,0.6)' }} />
             Mumbai HQ

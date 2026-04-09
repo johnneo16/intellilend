@@ -8,7 +8,7 @@ const FILTERS = ['All', 'AI Processing', 'Under Review', 'Approved', 'Rejected',
 
 export default function ApplicationsPage() {
   return (
-    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: '#f4f6fb' }}>
+    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: 'var(--bg-primary)' }}>
       <Header title="Applications" subtitle="241 active · 38 AI processed today" />
       <div className="flex-1 p-5 space-y-4">
         <div className="flex items-center justify-between">

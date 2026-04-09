@@ -1,12 +1,15 @@
 import { Sidebar } from '@/components/layout/Sidebar'
+import { ThemeProvider } from '@/lib/theme-context'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen overflow-hidden" style={{ background: '#f4f6fb' }}>
-      <Sidebar />
-      <main className="flex-1 flex flex-col overflow-hidden">
-        {children}
-      </main>
-    </div>
+    <ThemeProvider>
+      <div className="flex h-screen overflow-hidden" style={{ background: 'var(--bg-primary)' }}>
+        <Sidebar />
+        <main className="flex-1 flex flex-col overflow-hidden">
+          {children}
+        </main>
+      </div>
+    </ThemeProvider>
   )
 }

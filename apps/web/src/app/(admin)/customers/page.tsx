@@ -53,8 +53,8 @@ function RiskBadge({ tag }: { tag: string }) {
 }
 
 const cardStyle = {
-  background: '#ffffff',
-  border: '1px solid rgba(0,0,0,0.07)',
+  background: 'var(--bg-card)',
+  border: '1px solid var(--border-subtle)',
   boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
 }
 
@@ -75,7 +75,7 @@ export default function CustomersPage() {
   ]
 
   return (
-    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: '#f4f6fb' }}>
+    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: 'var(--bg-primary)' }}>
       <Header title="Customers" subtitle="12 borrowers · ₹19.4Cr portfolio" />
 
       <div className="flex-1 p-5 space-y-5">
@@ -122,7 +122,7 @@ export default function CustomersPage() {
                 style={
                   filter === f.value
                     ? { background: '#6366f1', color: '#fff', boxShadow: '0 2px 6px rgba(99,102,241,0.3)' }
-                    : { background: '#f4f6fb', color: '#64748b', border: '1px solid rgba(0,0,0,0.07)' }
+                    : { background: 'var(--bg-elevated)', color: 'var(--text-secondary)', border: '1px solid var(--border-subtle)' }
                 }
               >
                 {f.label}

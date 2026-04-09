@@ -7,9 +7,9 @@ import {
 import type { ChartDataPoint } from '@/types'
 import { PORTFOLIO_MIX, FUNNEL_DATA } from '@/lib/mock-data'
 
-const CARD = {
-  background: '#ffffff',
-  border: '1px solid rgba(0,0,0,0.07)',
+const CARD: React.CSSProperties = {
+  background: 'var(--bg-card)',
+  border: '1px solid var(--border-subtle)',
   boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.05)',
 }
 
@@ -17,20 +17,20 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background: '#ffffff',
-      border: '1px solid rgba(0,0,0,0.1)',
+      background: 'var(--bg-card)',
+      border: '1px solid var(--border-default)',
       borderRadius: 10,
       padding: '10px 14px',
-      boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+      boxShadow: '0 8px 24px rgba(0,0,0,0.18)',
     }}>
-      <div className="text-xs font-bold text-slate-700 mb-2">{label}</div>
+      <div className="text-xs font-bold mb-2" style={{ color: 'var(--text-primary)' }}>{label}</div>
       {payload.map((p: any) => (
         <div key={p.dataKey} className="flex items-center gap-2 text-[11px] mb-1 last:mb-0">
           <span className="w-2 h-2 rounded-full shrink-0" style={{ background: p.color }} />
-          <span className="text-slate-500 capitalize">{p.name || p.dataKey}:</span>
-          <span className="text-slate-800 font-bold">
+          <span className="capitalize" style={{ color: 'var(--text-secondary)' }}>{p.name || p.dataKey}:</span>
+          <span className="font-bold" style={{ color: 'var(--text-primary)' }}>
             {typeof p.value === 'number' && p.value > 1000
-              ? `₹${(p.value / 100000).toFixed(1)}L`
+              ? `\u20b9${(p.value / 100000).toFixed(1)}L`
               : `${p.value}${p.dataKey === 'npa' ? '%' : ''}`}
           </span>
         </div>
@@ -44,12 +44,12 @@ export function DisbursementChart({ data }: { data: ChartDataPoint[] }) {
     <div className="rounded-xl p-5" style={CARD}>
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h3 className="text-sm font-bold text-slate-800">Disbursements vs Collections</h3>
-          <p className="text-[11px] text-slate-400 mt-0.5">6-month trend · ₹ in Lakhs</p>
+          <h3 className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Disbursements vs Collections</h3>
+          <p className="text-[11px] mt-0.5" style={{ color: 'var(--text-muted)' }}>6-month trend &middot; &#8377; in Lakhs</p>
         </div>
         <div className="flex items-center gap-5 text-[11px]">
           {[{ color: '#6366f1', label: 'Disbursed' }, { color: '#10b981', label: 'Collected' }].map(({ color, label }) => (
-            <div key={label} className="flex items-center gap-2 text-slate-500">
+            <div key={label} className="flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
               <span className="w-3 h-0.5 rounded-full" style={{ background: color }} />
               {label}
             </div>
@@ -61,15 +61,15 @@ export function DisbursementChart({ data }: { data: ChartDataPoint[] }) {
           <defs>
             {[{ id: 'grad-d', color: '#6366f1' }, { id: 'grad-c', color: '#10b981' }].map(({ id, color }) => (
               <linearGradient key={id} id={id} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%"   stopColor={color} stopOpacity={0.15} />
+                <stop offset="0%"   stopColor={color} stopOpacity={0.2} />
                 <stop offset="100%" stopColor={color} stopOpacity={0} />
               </linearGradient>
             ))}
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.05)" vertical={false} />
-          <XAxis dataKey="month" tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={false} tickLine={false} />
-          <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={v => `${v/100000}L`} />
-          <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'rgba(0,0,0,0.05)', strokeWidth: 1 }} />
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.15)" vertical={false} />
+          <XAxis dataKey="month" tick={{ fill: 'var(--text-muted)', fontSize: 11 }} axisLine={false} tickLine={false} />
+          <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={v => `${v/100000}L`} />
+          <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'rgba(148,163,184,0.2)', strokeWidth: 1 }} />
           <Area type="monotone" dataKey="disbursements" name="Disbursed" stroke="#6366f1" strokeWidth={2} fill="url(#grad-d)" />
           <Area type="monotone" dataKey="collections"   name="Collected" stroke="#10b981" strokeWidth={2} fill="url(#grad-c)"  />
         </AreaChart>

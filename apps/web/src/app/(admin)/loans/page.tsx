@@ -12,17 +12,17 @@ const ACTIVE_LOANS = [
 
 export default function LoansPage() {
   return (
-    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: '#f4f6fb' }}>
+    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: 'var(--bg-primary)' }}>
       <Header title="Active Loans" subtitle={`${ACTIVE_LOANS.length} active · ₹5.62Cr outstanding`} />
       <div className="flex-1 p-5">
-        <div className="bg-white rounded-xl overflow-hidden" style={{ border: '1px solid rgba(0,0,0,0.07)', boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.05)' }}>
-          <div className="px-5 py-4 border-b" style={{ borderColor: 'rgba(0,0,0,0.06)', background: '#f8faff' }}>
+        <div className="rounded-xl overflow-hidden" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: '0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.05)' }}>
+          <div className="px-5 py-4 border-b" style={{ borderColor: 'rgba(0,0,0,0.06)', background: 'var(--bg-elevated)' }}>
             <h2 className="text-sm font-bold text-slate-800">Loan Portfolio</h2>
             <p className="text-[10px] text-slate-400 mt-0.5">4 active loans · ₹5.62Cr outstanding balance</p>
           </div>
           <table className="w-full text-sm">
             <thead>
-              <tr style={{ background: '#f8faff', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+              <tr style={{ background: 'var(--bg-elevated)', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
                 {['Loan ID', 'Borrower', 'Type', 'Sanctioned', 'Outstanding', 'EMI', 'Next Due', 'Status'].map(h => (
                   <th key={h} className="px-5 py-3 text-left text-[10px] font-bold text-slate-400 uppercase tracking-wider">{h}</th>
                 ))}
