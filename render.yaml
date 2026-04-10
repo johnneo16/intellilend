@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: intellilend-api
+    env: node
+    plan: free
+    region: singapore # Closest free tier for Mumbai-based users
+    buildCommand: pnpm install && pnpm --filter @intellilend/api build
+    startCommand: pnpm --filter @intellilend/api start:prod
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: PORT
+        value: 4000

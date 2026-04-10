@@ -9,6 +9,7 @@ import {
   Zap, User, Briefcase, IndianRupee, FileText, Brain,
   CheckCircle2, ChevronRight, ChevronLeft, Upload, AlertCircle,
   ArrowLeft, Phone, Paperclip, X, RefreshCw, Shield, Sun, Moon,
+  ShieldCheck, Search,
 } from 'lucide-react'
 
 /* ── Types ─────────────────────────────────────────────────────────── */
@@ -112,7 +113,7 @@ const STEPS = [
   { id: 2, label: 'Employment',  icon: Briefcase,   desc: 'Income & job' },
   { id: 3, label: 'Loan',        icon: IndianRupee, desc: 'Amount & terms' },
   { id: 4, label: 'Documents',   icon: FileText,    desc: 'Upload KYC docs' },
-  { id: 5, label: 'AI Review',   icon: Brain,       desc: 'Auto-decision' },
+  { id: 5, label: 'Review',      icon: ShieldCheck, desc: 'Final assessment' },
 ]
 
 /* ── Portal nav ────────────────────────────────────────────────────── */
@@ -574,10 +575,10 @@ function AIReviewStep({ mobile, loanType, income, amount, tenure }: {
   const aiScore   = Math.min(95, Math.max(55, 88 - (foirCalc > 45 ? (foirCalc - 45) * 2 : 0)))
 
   const AGENT_DEFS: Omit<Agent, 'status' | 'confidence' | 'time'>[] = [
-    { name: 'Document Intelligence', desc: 'OCR + fraud detection on all uploaded files', color: '#6366f1' },
-    { name: 'Credit Decision',       desc: 'CIBIL pull + credit scoring + bureau analysis', color: '#f59e0b' },
-    { name: 'Risk Assessment',       desc: 'Default probability + portfolio risk scoring', color: '#8b5cf6' },
-    { name: 'Collections Forecast',  desc: 'Repayment likelihood + NPA risk modelling', color: '#10b981' },
+    { name: 'Document Verification', desc: 'Integrity check on all uploaded files', color: '#6366f1' },
+    { name: 'Credit Assessment',     desc: 'Bureau pull & financial health analysis', color: '#f59e0b' },
+    { name: 'Risk Evaluation',       desc: 'Overall probability of default scoring', color: '#8b5cf6' },
+    { name: 'Policy Compliance',     desc: 'Alignment with internal lending rules', color: '#10b981' },
   ]
 
   const [agents, setAgents] = useState<Agent[]>(
@@ -618,8 +619,8 @@ function AIReviewStep({ mobile, loanType, income, amount, tenure }: {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-xl font-black text-slate-900">AI is reviewing your application</h2>
-        <p className="text-sm text-slate-400 mt-1">4 agents processing in parallel · Estimated time: 8 seconds</p>
+        <h2 className="text-xl font-black text-slate-900">Reviewing your application</h2>
+        <p className="text-sm text-slate-400 mt-1">Automated verification in progress · Estimated time: 8 seconds</p>
       </div>
 
       {/* OTP notice */}
@@ -713,7 +714,7 @@ function AIReviewStep({ mobile, loanType, income, amount, tenure }: {
               </div>
             </div>
             <div>
-              <div className="text-xs text-slate-500 mb-1">Preliminary AI Decision</div>
+              <div className="text-xs text-slate-500 mb-1">Preliminary Assessment</div>
               <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                 <span className="text-xl font-black text-slate-900">{decision}</span>
                 <span className="text-[10px] font-bold px-2.5 py-1 rounded-full"
