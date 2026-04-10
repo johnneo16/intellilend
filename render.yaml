@@ -4,7 +4,7 @@ services:
     env: node
     plan: free
     region: singapore # Closest free tier for Mumbai-based users
-    buildCommand: pnpm install --no-frozen-lockfile && pnpm --filter @intellilend/db prisma generate && pnpm --filter @intellilend/api build
+    buildCommand: pnpm install --no-frozen-lockfile && pnpm --filter @intellilend/db generate && pnpm --filter @intellilend/api build
     startCommand: pnpm --filter @intellilend/api start:prod
     envVars:
       - key: DATABASE_URL

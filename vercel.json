@@ -1,5 +1,4 @@
-{
-  "buildCommand": "pnpm --filter @intellilend/db prisma generate && cd apps/web && pnpm build",
+  "buildCommand": "pnpm --filter @intellilend/db generate && cd apps/web && pnpm build",
   "outputDirectory": "apps/web/.next",
   "installCommand": "pnpm install --no-frozen-lockfile",
   "framework": "nextjs",
