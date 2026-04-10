@@ -105,7 +105,7 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
   /* Not found */
   if (!app) {
     return (
-      <div className="flex flex-col h-full items-center justify-center gap-4" style={{ background: '#f4f6fb' }}>
+      <div className="flex flex-col h-full items-center justify-center gap-4">
         <p className="text-slate-500 text-sm">Application not found.</p>
         <Link
           href="/applications"
@@ -133,7 +133,7 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
   const emiEstimate = Math.round(app.requestedAmount / app.tenure)
 
   return (
-    <div className="flex flex-col h-full overflow-auto scrollbar-thin" style={{ background: '#f4f6fb' }}>
+    <div className="flex flex-col h-full overflow-auto scrollbar-thin">
       <Header
         title={`Application — ${app.applicationNumber}`}
         subtitle={`${app.applicant.name} · ${app.loanType} Loan`}
