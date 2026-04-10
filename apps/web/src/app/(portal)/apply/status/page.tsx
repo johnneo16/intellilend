@@ -16,20 +16,20 @@ const MOCK_STATUS = {
   status: 'Processing',
   stage: 2,
   steps: [
-    { label: 'Application Submitted',    done: true,  time: '10:30 AM' },
-    { label: 'Documents Verified',        done: true,  time: '10:32 AM' },
-    { label: 'Credit Assessment',         done: false, time: 'In Progress' },
-    { label: 'Underwriter Decision',      done: false, time: 'Pending'     },
-    { label: 'Disbursement',             done: false, time: 'Pending'     },
+    { label: 'Application Submitted', done: true, time: '10:30 AM' },
+    { label: 'Documents Verified', done: true, time: '10:32 AM' },
+    { label: 'Credit Assessment', done: false, time: 'In Progress' },
+    { label: 'Underwriter Decision', done: false, time: 'Pending' },
+    { label: 'Disbursement', done: false, time: 'Pending' },
   ],
 }
 
 export default function StatusPage() {
-  const [appId, setAppId]     = useState('')
-  const [mobile, setMobile]   = useState('')
-  const [result, setResult]   = useState<typeof MOCK_STATUS | null>(null)
+  const [appId, setAppId] = useState('')
+  const [mobile, setMobile] = useState('')
+  const [result, setResult] = useState<typeof MOCK_STATUS | null>(null)
   const [loading, setLoading] = useState(false)
-  const [error, setError]     = useState('')
+  const [error, setError] = useState('')
 
   const handleSearch = () => {
     if (!appId.trim() || !mobile.trim()) {
@@ -176,10 +176,10 @@ export default function StatusPage() {
                           {step.done
                             ? <CheckCircle2 className="w-4 h-4 text-white" />
                             : i === result.stage
-                            ? <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1.5 }}>
+                              ? <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1.5 }}>
                                 <Clock className="w-3.5 h-3.5 text-white" />
                               </motion.div>
-                            : <div className="w-2.5 h-2.5 rounded-full bg-slate-300" />
+                              : <div className="w-2.5 h-2.5 rounded-full bg-slate-300" />
                           }
                         </div>
                         {i < result.steps.length - 1 && (

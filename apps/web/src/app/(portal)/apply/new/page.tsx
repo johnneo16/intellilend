@@ -6,10 +6,10 @@ import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/utils'
 import { ThemeProvider, useTheme } from '@/lib/theme-context'
 import {
-  Zap, User, Briefcase, IndianRupee, FileText, Brain,
+  Zap, User, Briefcase, IndianRupee, FileText,
   CheckCircle2, ChevronRight, ChevronLeft, Upload, AlertCircle,
   ArrowLeft, Phone, Paperclip, X, RefreshCw, Shield, Sun, Moon,
-  ShieldCheck, Search,
+  ShieldCheck,
 } from 'lucide-react'
 
 /* ── Types ─────────────────────────────────────────────────────────── */
