@@ -1,0 +1,13 @@
+{
+  "name": "@intellilend/db",
+  "version": "0.0.1",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "dependencies": {
+    "@prisma/client": "^5.3.3"
+  },
+  "devDependencies": {
+    "prisma": "^5.3.3",
+    "typescript": "^5.3.3"
+  }
+}
