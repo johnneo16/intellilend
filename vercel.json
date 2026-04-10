@@ -1,6 +1,6 @@
 {
-  "buildCommand": "pnpm --filter @intellilend/web build",
-  "outputDirectory": "apps/web/.next",
+  "buildCommand": "pnpm build",
+  "outputDirectory": ".next",
   "installCommand": "pnpm install --no-frozen-lockfile",
   "framework": "nextjs",
   "git": {
